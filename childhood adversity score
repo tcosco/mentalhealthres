@@ -1,0 +1,457 @@
+
+* adapting Rishi;s code * 
+
+*****SES RISK FACTORS**********
+
+**FATHER SOCIAL CLASS**
+
+
+*Give missing code for particpants with unknown social class*/
+recode FSC50  60=.
+recode FSC57  60=. 2=.
+recode FSC61  60=.
+
+*Note: missing values of father's social class variable replaced with those available in 1957 & 1961*/
+gen class2x=FSC50
+replace class2x=FSC57 if class2x==.
+replace class2x=FSC61 if class2x==.
+
+label define class2x 10 "Professional" 20"Intermediate" 30"Skilled Non-Manual" 35" Skilled manual" 40"Partly Skilled" 50"Unskilled" 
+label values class2x class2x
+tab class2x,m
+
+** Dichotomized Father's Social Class
+recode class2x 10=0 20=0 30=0 35=0 40=1 50=1, gen(sclas)
+label define sclas 0"High" 1"Low"
+label values sclas
+codebook sclas
+tab sclas,m
+
+
+**HOUSE TENURE (Private landlord vs. other**
+codebook OWN48
+replace OWN48=. if OWN48==-9899 
+recode OWN48 1=0 2=0 3=0 4=1 5=., gen(own)
+tab own,m
+
+
+*LACK OF HOUSEHOLD AMENITIEs *
+
+*Give missing code for particpants with unknown responses*/
+recode AML48 -9899=.
+recode AML57 -9899=.
+recode AML61 -9899=.
+
+*Note: missing values of home amenities replaced with those available in 1957 & 1961
+gen amen=AML48
+replace amen= AML57 if amen==.
+replace amen= AML61 if amen==.
+
+tab amen,m
+
+label define amen 0"Lacks 0 amenities" 1"Lacks 1 amenity" 2"Lacks 2 amenities" 3"Lacks 3 amenities"
+label values amen amen
+
+tab amen,m
+
+*Dichotomized lacks amenities*
+recode amen 0=0 1=0 2=0 3=1, gen(amen2)
+label define amen2 0"Lacks 0-2 amenities" 1"Lacks 3 amenities"
+label values amen2 amen2
+tab amen2,m
+
+
+*HOUSEHOLD CROWDING
+*CROWDING 1946*
+
+**Definition: More than 2 people living in the same room *
+
+replace CROW46=. if CROW46==-9899
+replace CROW46=. if CROW46==0
+
+gen crowd1946=.
+replace crowd1946=0 if CROW46<=4 & CROW46!=.
+replace crowd1946=1 if CROW46>4 & CROW46!=.
+
+label define crowd1946 0"Not overcrowded" 1"Crowded" 
+label values crowd1946 crowd1946
+
+
+* CROWDING 1948 *
+**Definition: More than 2 people living in the same room
+
+replace CROW48=. if CROW48==-9899
+gen crowd1948=.
+replace crowd1948=0 if CROW48<=4 & CROW48!=.
+replace crowd1948=1 if CROW48>4 & CROW48!=.
+
+label define crowd1948 0"Not overcrowded" 1"Crowded" 
+label values crowd1948 crowd1948
+tab crowd1948,m
+
+
+* CROWDING 1950 * 
+**Definition: More than 2 people living in the same room
+
+replace CROW50=. if CROW50==-9899
+replace CROW50=. if CROW50==-9799
+gen crowd1950=.
+replace crowd1950=0 if CROW50<=4 & CROW50!=.
+replace crowd1950=1 if CROW50>4 & CROW50!=.
+
+label define crowd1950 0"Not overcrowded" 1"Crowded" 
+label values crowd1950 crowd1950
+
+
+*CROWDING 1952*
+**Definition: More than 2 people living in the same room*
+
+replace CROW52=. if CROW52==-9899
+replace CROW52=. if CROW52==-9999
+gen crowd1952=.
+replace crowd1952=0 if CROW52<=4 & CROW52!=.
+replace crowd1952=1 if CROW52>4 & CROW52!=.
+
+label define crowd1952 0"Not overcrowded" 1"Crowded" 
+label values crowd1952 crowd1952
+tab crowd1952,m
+
+*CROWDING 1954*
+**Definition: More than 2 people living in the same room*
+
+replace CROW54=. if CROW54==-9899
+replace CROW54=. if CROW54==-9799
+gen crowd1954=.
+replace crowd1954=0 if CROW54<=4 & CROW54!=.
+replace crowd1954=1 if CROW54>4 & CROW54!=.
+
+label define crowd1954 0"Not overcrowded" 1"Crowded" 
+label values crowd1954 crowd1954
+
+
+
+*/CROWDING 1957//*
+**Definition: More than 2 people living in the same room*
+
+replace CROW57=. if CROW57==-9899
+replace CROW57=. if CROW57==-9799
+gen crowd1957=.
+replace crowd1957=0 if CROW57<=4 & CROW57!=.
+replace crowd1957=1 if CROW57>4 & CROW57!=.
+
+label define crowd1957 0"Not overcrowded" 1"Crowded" 
+label values crowd1957 crowd1957
+tab crowd1957,m
+
+
+*//CROWDING SUMMARY- IMPUTE MISSING OBSERVATIONS//*
+gen crowd4654=crowd1946
+replace crowd4654=crowd1948 if crowd4654==.
+replace crowd4654=crowd1950 if crowd4654==.
+replace crowd4654=crowd1952 if crowd4654==.
+replace crowd4654=crowd1954 if crowd4654==.
+replace crowd4654=crowd1957 if crowd4654==.
+label define crowd4654 0"Not overcrowded" 1"Crowded" 
+label values crowd4654 crowd4654
+tab crowd4654,m
+rename crowd4654 crowd
+tab crowd,m
+
+
+*STATE OF REPAIR OF HOUSE**
+
+
+*Give missing code for particpants with unknown responses*
+replace REP50=. if REP50==-9899  |  REP50==-9799
+replace REP52=. if REP52==-9999 | REP52==-9899 | REP52==-9799 | REP52==0 | REP52==6
+replace REP57=. if REP57==-9999 | REP57==-9899 | REP52==-9799 
+
+gen reprs=REP50
+
+replace reprs= REP52 if reprs==.
+replace reprs= REP57 if reprs==.
+
+tab reprs,m
+label define reprs 1"Average" 2 "Very Good" 3"Bad"
+label values reprs  reprs 
+
+tab reprs,m
+
+** Dichotomized state of repair of the house
+recode reprs 1=0 2=0 3=1, gen(reprs2)
+label define reprs2 0"Av to v good" 1"Bad"
+label values reprs2 reprs2
+tab reprs2,m
+
+**CLEANLINESS OF CHILD**
+
+
+*/*Give missing code for particpants with unknown responses*/*
+replace CLC50=. if CLC50==-9899 | CLC50==-9799 
+replace CLC52=. if CLC52==-9999  | CLC52==-9899 | CLC52==-9799 
+replace CLC55=. if CLC55 ==-9999 | CLC55 ==-9899 | CLC55==-9299
+
+gen ccln=CLC50
+replace ccln=CLC52 if ccln==.
+replace ccln=CLC55 if ccln==.
+
+tab ccln,m
+
+codebook ccln
+recode ccln 1=2 2=1
+label define ccln 1"Most clean" 2 "Average" 3"Least clean"
+label values ccln ccln
+
+tab ccln,m
+
+*Dichotomized cleaniless of child
+recode ccln 1=0 2=0 3=1, gen(ccln2)
+label define ccln2 0"Most to av clean" 1"Least clean"
+label values ccln2 ccln2
+tab ccln2,m
+
+
+**CLEANLINESS OF HOUSE**
+
+
+*Give missing code for particpants with unknown responses*
+replace CLH50=. if CLH50==-9899 | CLH50==-9799 | CLH50==-9299 
+replace CLH52=. if CLH52==-9999  | CLH52==-9899 | CLH52==-9799 | CLH52==0
+replace CLH55=. if CLH55 ==-9999 | CLH55 ==-9899 | CLH55 ==-9799 | CLH55==-9299
+
+gen hcln=CLH50
+replace hcln=CLH52 if hcln==.
+replace hcln=CLH55 if hcln==.
+
+tab hcln,m
+
+codebook hcln
+recode hcln 1=2 2=1
+label define hcln 1"Most clean" 2 "Average" 3"Least clean"
+label values hcln hcln 
+
+tab hcln,m
+
+*Dichotomized cleaniless of house
+recode hcln 1=0 2=0 3=1, gen(hcln2)
+label define hcln2 0"Av to v good" 1"Bad"
+label values hcln2 hcln2
+tab hcln2,m
+
+
+**CONDITION OF CHILD'S CLOTHES*
+
+
+*Give missing code for particpants with unknown responses*/
+replace CLO50=. if CLO50==-9899 | CLO50==-9799 
+replace CLO52=. if CLO52==-9999  | CLO52==-9899 | CLO52==-9799 
+replace CLO55=. if CLO55 ==-9999 | CLO55 ==-9899 
+replace TCL57=. if TCL57==-9999 | TCL57==-9899
+
+recode CLO50 1=0 2=1
+recode CLO52 1=0 2=1
+recode CLO55 0=1 1=0
+recode TCL57 0=1 1=0
+
+gen clth=CLO50
+replace clth=CLO52 if clth==.
+replace clth=CLO55 if clth==.
+replace clth=TCL57 if clth==.
+tab clth,m
+
+label define clth 0"Satisfactory" 1 "Unsatisfactory" 
+label values clth clth
+tab clth,m
+
+**CONDITION OF CHILD'S SHOES
+
+
+replace SHO50=. if  SHO50==-9899 | SHO50==-9799 
+replace SHO52=. if SHO52==-9999  | SHO52==-9899 | SHO52==-9799 
+replace SHO55=. if SHO55 ==-9999 | SHO55 ==-9899 
+
+recode SHO50 1=0 2=1
+recode SHO52 1=0 2=1
+recode SHO55 0=1 1=0
+
+gen shoes=SHO50
+replace shoes= SHO52 if shoes==.
+replace shoes= SHO55 if shoes==.
+tab shoes,m
+
+label define shoes 0"Satisfactory" 1"Unsatisfactory" 
+label values shoes shoes
+tab shoes,m
+
+
+*CHILD'S CLOTHES & SHOES COMBINED*
+
+gen clsh=.
+replace clsh=1 if clth==1 | shoes==1
+replace clsh=0 if clth==0 & shoes==0
+replace clsh=. if clth==. | shoes==.
+label define clsh 0"Satisfactory" 1"Unsatisfactory" 
+label values clsh clsh
+tab clsh,m
+
+
+
+
+******PSYCHOSOCIAL RISK FACTORS**********
+
+**Child Maltreatment **** doesnt exist!? *
+ *gen maltrt=pamis89
+* codebook maltrt
+* replace maltrt=. if pamis89==9
+* tab maltrt,m
+
+
+
+** Teacher's estimate of parent's interest in child's school progress 1959
+gen tint=TINT59
+codebook tint
+replace tint=. if tint==-9999 | tint==-9899
+tab tint,m
+
+label define tint 1"Very interested" 2 "Average" 3"Little interest"
+label values tint tint
+
+tab tint,m
+
+**Dicotomized teacher's interest in primary/secondary education 1959
+recode tint  1=0 2=0 3=1, gen(tint2)
+label define tint2 0" Avge to v.interest" 1"Little interest"
+label values tint2 tint2
+
+tab tint2,m
+
+
+** Parent's interest in primary and secondary education 1959
+codebook parps
+recode parps  1=1 2=1 3=1 4=2 5=2 6=2 7=3 8=3 9=3, gen(pint)
+replace pint=. if pint==-9899 |  pint==-9999 | pint==-9799
+label define pint 1"Very interested" 2 "Average" 3"Little interest"
+label values pint pint
+
+tab pint,m
+
+**Dicotomized parent's interest in primary/secondary education 1959
+recode pint  1=0 2=0 3=1, gen(pint2)
+label define pint2 0" Avge to v.interest" 1"Little interest"
+label values pint2 pint2
+tab pint2,m
+
+** Father Psych Hx**
+
+gen fpsych=.
+replace fpsych=1 if evifc==1
+replace fpsych=0 if evifc>1 | evifc <1
+tab fpsych,m
+
+
+** Mother Psych Hx**
+gen mpsych=.
+replace mpsych=1 if evimc==1
+replace mpsych=0 if evimc>1 | evimc <1
+tab mpsych,m
+
+
+**Parent Psych Hx**
+gen psych=.
+replace psych=1 if fpsych==1 | mpsych==1
+replace psych=0 if fpsych==0 & mpsych==0
+replace psych=. if fpsych==. | mpsych==.
+tab psych,m
+
+
+**Parental divorce**
+gen div=.
+replace div=1 if divscage<=16
+replace div=0 if divscage>16
+tab div,m
+
+**Quality of Parental Care
+
+**Mother's parental bonding
+
+*Check whether ok that missing obs code is correct*/
+
+gen mumpbi=.
+replace mumpbi=1 if (mcare>=27  & moverp<13.5) & (mcare!=.  & moverp!=.)
+replace mumpbi=2 if (mcare >=27 & moverp>=13.5) & (mcare!=.  & moverp!=.)
+replace mumpbi=3 if (mcare <27 & moverp<13.5) & (mcare!=.  & moverp!=.)
+replace mumpbi=4 if (mcare<27 & moverp>=13.5) & (mcare!=.  & moverp!=.)
+
+tab mumpbi,m
+label define mumpbi 1"Optimal parenting" 2 "Affectionate constraint" 3"Neglectful parenting" 4"Affectionless control"
+label values mumpbi mumpbi
+tab mumpbi,m
+
+**Afectionless control more likely to be associated with poor mental health outcomes hence recode**
+recode mumpbi 3=0 1=0 2=0 4=1, gen (mpbi)
+label define mpbi 1"Not normal" 0 "Normal"
+label values mpbi mpbi
+tab mpbi,m
+
+
+**Father's parental bonding *
+
+*Check whether ok that missing obs code is correct*/
+
+gen dadpbi=.
+replace dadpbi=1 if (fcare>=24  & foverp<12.5) & (fcare!=.  & foverp!=.)
+replace dadpbi=2 if (fcare >=24 & foverp>=12.5) & (fcare!=.  & foverp!=.)
+replace dadpbi=3 if (fcare <24 & foverp<12.5) & (fcare!=.  & foverp!=.)
+replace dadpbi=4 if (fcare<24 & foverp>=12.5) & (fcare!=.  & foverp!=.)
+
+tab dadpbi,m
+label define dadpbi 1"Optimal parenting" 2 "Affectionate constraint" 3"Absent parenting" 4"Affectionless control"
+label values dadpbi dadpbi
+tab dadpbi,m
+
+**Afectionless control more likely to be associated with poor mental health outcomes hence recode**
+recode dadpbi 3=0 1=0 2=0 4=1, gen (dpbi)
+label define dpbi 1"Not normal" 0 "normal"
+label values dpbi dpbi
+tab dpbi,m
+
+
+**Father death <16**
+tab sagedf,m
+recode sagedf 99=. 
+gen lsdad=.
+replace lsdad=1 if  sagedf>=0 & sagedf<=16 
+replace lsdad=0 if sagedf>16 & sagedf!=.
+replace lsdad=0 if sagedf==-9999
+tab lsdad,m
+
+
+
+**Mother death <16**
+tab sagedm,m
+recode sagedm 99=. 
+gen lsmum=.
+replace lsmum=1 if  sagedm>=0 & sagedm<=16 
+replace lsmum=0 if sagedm>16 & sagedm!=.
+replace lsmum=0 if sagedm==-9999
+tab lsmum,m
+
+
+*ANY PARENT DEATH <16 YEARS*
+gen pdth2=.
+replace pdth2=1 if lsdad==1 | lsmum==1
+replace pdth2=0 if lsdad==0 & lsmum==0
+replace pdth2=. if lsdad==. | lsmum==.
+
+tab pdth2,m
+
+*MATERNAL SEPARATION UP TO 6 YEARS
+*Give missing code for particpants with unknown responses*/
+
+recode SET4652 -9999=.
+recode SET4652 -9899=.
+gen sep=.
+replace sep=1 if SET4652==-9799
+replace sep=1 if SET4652==9
+replace sep=0 if SET4652>=0 & SET4652<9
+tab sep,m
