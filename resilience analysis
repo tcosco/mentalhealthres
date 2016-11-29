@@ -1,0 +1,8 @@
+
+recode GHQ15_SUMx (-999/-1=.),gen(GHQ)
+recode GHQ (1/27=0)(1=0), gen(ghq)
+recode GHQ (1/27=0)(0=1), gen(ghq)
+gen res = .
+replace res = 1 if(ghq==1 & totalr==3)
+replace res = 1 if(ghq==1 & totalr==4)
+replace res = 0 if(ghq==0)
