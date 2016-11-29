@@ -455,3 +455,27 @@ replace sep=1 if SET4652==-9799
 replace sep=1 if SET4652==9
 replace sep=0 if SET4652>=0 & SET4652<9
 tab sep,m
+
+
+***** TOTAL RISK SCORES  *****
+egen scr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+egen nmiss12=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+replace scr=. if nmiss12
+replace scr=3 if scr>=4 & scr<=8
+proportion scr
+
+
+*Cumulative psychosocial risk
+egen psychscr=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+egen nmiss2=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+replace psychscr=. if nmiss2
+replace psychscr=3 if psychscr>=4 & psychscr<=6
+proportion psychscr
+
+
+***Cumualtive Total Risk
+egen totalr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+egen nmiss5=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+replace totalr=. if nmiss5
+replace totalr=4 if totalr>=5 & totalr!=.
+proportion totalr
