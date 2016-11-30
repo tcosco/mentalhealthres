@@ -25,3 +25,8 @@ gen ghq09_LIKERT = (GHQ0109+1) + (GHQ0209+1) + (GHQ0309+1)+ (GHQ0409+1)+ (GHQ050
 gen ghq0199_LIKERT = (  ghq0199 +ghq0299 +ghq0399 +ghq0499 +ghq0599 +ghq0699 +ghq0799 +ghq0899 +ghq0999 +ghq1099 +ghq1199 +ghq1299 +ghq1399 +ghq1499+ ghq1599+ ghq1699+ ghq1799 +ghq1899 +ghq1999 +ghq2099 +ghq2199+ ghq2299+ ghq2399 +ghq2499+ ghq2599 +ghq2699 +ghq2799 +ghq2899 )
 
 
+* split the ghq scores into tertiles for analysis * 
+
+xtile ghq153 = ghq15_LIKERT, nq(3)
+xtile ghq093 = ghq09_LIKERT, nq(3)
+xtile ghq993 = ghq0199_LIKERT, nq(3)
