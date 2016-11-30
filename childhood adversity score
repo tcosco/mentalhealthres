@@ -464,18 +464,19 @@ replace scr=. if nmiss12
 replace scr=3 if scr>=4 & scr<=8
 proportion scr
 
-
+* REMOVED MALTRT * 
 *Cumulative psychosocial risk
-egen psychscr=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
-egen nmiss2=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+egen psychscr=rowtotal( tint2 psych div dpbi mpbi pdth2 sep)
+egen nmiss2=rowmiss( tint2 psych div dpbi mpbi pdth2 sep)
 replace psychscr=. if nmiss2
 replace psychscr=3 if psychscr>=4 & psychscr<=6
 proportion psychscr
 
+* REMOVED MALTRT * 
 
 ***Cumualtive Total Risk
-egen totalr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
-egen nmiss5=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+egen totalr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own tint2 psych div dpbi mpbi pdth2 sep)
+egen nmiss5=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own tint2 psych div dpbi mpbi pdth2 sep)
 replace totalr=. if nmiss5
 replace totalr=4 if totalr>=5 & totalr!=.
 proportion totalr
