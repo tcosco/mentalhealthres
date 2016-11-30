@@ -30,3 +30,26 @@ gen ghq0199_LIKERT = (  ghq0199 +ghq0299 +ghq0399 +ghq0499 +ghq0599 +ghq0699 +gh
 xtile ghq153 = ghq15_LIKERT, nq(3)
 xtile ghq093 = ghq09_LIKERT, nq(3)
 xtile ghq993 = ghq0199_LIKERT, nq(3)
+
+
+*******************************************************************
+* resilience scores * 
+
+* generate resilience if GHQ in2015 is in top tertile and total childhood adversity is 3/4 *
+
+gen restot15 = .
+replace restot15 = 1 if (ghq153==3 & totalr>=3)
+replace restot15 = 0 if (ghq153<3)
+
+* generate resilience if GHQ in2009 is in top tertile and total childhood adversity is 3/4 *
+
+
+gen restot09 = .
+replace restot09 = 1 if (ghq093==3 & totalr>=3)
+replace restot09 = 0 if (ghq093<3)
+
+* generate resilience if GHQ in 1999 is in top tertile and total childhood adversity is 3/4 *
+
+gen restot99 = .
+replace restot99 = 1 if (ghq993==3 & totalr>=3)
+replace restot99 = 0 if (ghq993<3)
