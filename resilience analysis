@@ -40,7 +40,8 @@ xtile ghq993 = ghq0199_LIKERT, nq(3)
 gen restot15 = .
 replace restot15 = 1 if (ghq153==1 & totalr==3)
 replace restot15 = 1 if (ghq153==1 & totalr==4)
-replace restot15 = 0 if (ghq153>1)
+replace restot15 = 0 if (ghq153==2)
+replace restot15 = 0 if (ghq153==3)
 
 * generate resilience if GHQ in2009 is in top tertile and total childhood adversity is 3/4 *
 
@@ -48,11 +49,13 @@ replace restot15 = 0 if (ghq153>1)
 gen restot09 = .
 replace restot09 = 1 if (ghq093==1 & totalr==3)
 replace restot09 = 1 if (ghq093==1 & totalr==4)
-replace restot09 = 0 if (ghq093>1)
+replace restot09 = 0 if (ghq093==2)
+replace restot09 = 0 if (ghq093==3)
 
 * generate resilience if GHQ in 1999 is in top tertile and total childhood adversity is 3/4 *
 
 gen restot99 = .
 replace restot99 = 1 if (ghq993==1 & totalr==3)
-replace restot09 = 1 if (ghq093==1 & totalr==4)
-replace restot99 = 0 if (ghq993>1)
+replace restot99 = 1 if (ghq993==1 & totalr==4)
+replace restot99 = 0 if (ghq993==2)
+replace restot99 = 0 if (ghq993==3)
