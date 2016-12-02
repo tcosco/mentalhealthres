@@ -554,3 +554,448 @@ replace restot99 = 0 if (ghq993==2)
 replace restot99 = 0 if (ghq993==3)
 
 ****
+
+
+************************
+*** SOCIAL SUPPORT****** 1999 1999
+************************
+************************
+*** SOCIAL SUPPORT****** 1999 1999
+************************************************
+*** SOCIAL SUPPORT****** 1999 1999
+************************************************
+*** SOCIAL SUPPORT****** 1999 1999
+************************
+
+*STRUCURAL SUPPORTS * 
+*STRUCURAL SUPPORTS * 
+*STRUCURAL SUPPORTS * 
+
+
+** how often visit/are visited by friends * 
+
+clonevar visitfr = frndc
+
+recode visitfr (5=100)(4=80)(3=60)(2=40)(1=20), gen (visitIX)
+replace visitIX = 0 if(frndc1==2)
+
+* Are there any relatives or friends with whom you have regular contact, either by visit, telephone or letters? *
+* binary*
+*recode frndc1 (2=0)(9=.), gen(contactfr)
+*recode contactfr (1=100), gen(contactIX)
+
+
+
+*How many friends or relatives do you see once a month or more?*
+
+recode frndr (9=.), gen(numberfr)
+
+recode numberfr (5=100)(4=75)(3=50)(2=25)(1=0), gen (numberIX)
+
+*1	None [How many friends/relatives do you see once a month or more?]
+*2	1-2
+*3	3-5
+*4	6-10
+*5	More than 10
+
+* marital status * 
+
+recode marstat (3/5=0)(1=0)(2=1), gen(marstat1
+recode marstat1 (1=100), gen(marIX)
+
+*FUNCTIONAL SUPPORTS *
+*FUNCTIONAL SUPPORTS *
+*FUNCTIONAL SUPPORTS *
+
+* POSITIVE ITEMS *
+* POSITIVE ITEMS *
+* POSITIVE ITEMS *
+
+
+** 	Do you think that you have friends, neighbours or relatives who would HELP you out if a problem or crisis came up? * 
+
+recode frndh (9=.), gen(helpfr)
+
+recode helpfr (4=100)(3=66.66666)(2=33.333333)(1=0), gen(helpIX)
+
+
+** 	Overall do you wish that you had more of a SOICIAL LIFE, or are thing about right for you, or would you prefer to see less of people? *
+
+recode frndm (9=.), gen(soclife)
+
+recode soclife (2=100)(1=0)(3=0), gen(socIX)
+
+
+* How much in the last 12 months did you CONFIDE in the person you felt closest to?*
+
+recode frcd99 (6/9=.), gen(confide)
+
+recode confide (3=100)(2=66.66666)(1=33.333333), gen(confideIX)
+
+
+
+* How much, in the last 12 months, did you share interests, hobbies and fun with the person you felt closest to? *
+
+recode frsh99 (6/9=.)(-1=.)(1=33.333333)(2=66.6666666)(3=100), gen(hobbyIX)
+
+* How much in the last 12 months did this person make you feel good about yourself? *
+
+recode frfg99 (6/9=.)(3=100)(2=66.66666)(1=33.33333), gen(feelIX)
+
+* NEGATIVE ITEMS *
+* NEGATIVE ITEMS *
+* NEGATIVE ITEMS *
+
+
+* dissapointments by spouse in past year * 1=no*
+
+recode dssp (2=1)(1=0)(3/9=.), gen(dsspIX)
+recode dsspIX (1=100)
+replace dsspIX = 100 if(marstat==0)
+
+* lost contact wiuthg a close friend/relative * 1= no *
+
+recode rlos (1=0)(2=1)(3/9=.)
+
+recode rlos (1=100), gen(rlosIX)
+
+* how much worry/stress did person closest give yo uin past year* 1 = none 0= some *
+
+*recode frpr99 (0=1)(1/3=0)(6/9=.)
+
+recode frpr99 (6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frprIX)
+
+* how much did talking to the perosn you feel closes to to make you feel worse * * 1 = none 0= some *
+
+*recode frwr99 (0=1)(1/3=0)(6/9=.)(-1=.)
+
+recode frwr99 (-1=.)(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frwrIX)
+
+
+* 	How much in the last 12 months would you have liked to have confided more in the person you felt closest to? *
+
+recode frcm99 (6/9=.), gen(confidemore)
+recode confidemore (3=0)(2=33.333333)(1=66.6666666)(0=100), gen(confmoreIX)
+* if there is noone they've confided in they are given a score of 0 *
+replace confmoreIX = 0 if(frcd99==0)
+
+************************************************************
+* Cumulative score - index - of social support * 1999 1999 1999 1999
+************************************************************
+* Cumulative score - index - of social support * 1999 1999 1999 1999
+************************************************************
+
+
+*total*
+
+* inclusive model*
+local SOCSUP99 "visitIX  numberIX helpIX socIX confideIX confmoreIX  marIX dsspIX rlosIX frprIX frwrIX  hobbyIX  feelIX"
+egen socsupIXinc = rmean(`SOCSUP99')
+* listwise delete*
+gen socsupIX = (visitIX+  numberIX+ helpIX+ socIX+ confideIX+ confmoreIX + marIX+ dsspIX+ rlosIX+ frprIX+ frwrIX + hobbyIX + feelIX)/13
+
+* structural only *
+
+* inclusive model*
+local STRSOCSUP99 "visitIX  numberIX marIX"
+egen strsocsupIXinc = rmean(`STRSOCSUP99')
+* listwise delete*
+gen strsocsupIX = (visitIX  + numberIX +marIX)/3
+
+* functional only*
+
+* inclusive model*
+local FUNSOCSUP99 "helpIX socIX confideIX confmoreIX  dsspIX rlosIX frprIX frwrIX  hobbyIX  feelIX"
+egen funsocsupIXinc = rmean(`FUNSOCSUP99')
+* listwise delete*
+gen funsocsupIX = (helpIX+ socIX+ confideIX+ confmoreIX + dsspIX+ rlosIX+ frprIX+ frwrIX + hobbyIX + feelIX)/10
+
+
+* positive functional  items *
+
+* inclusive model*
+local POSFUN99 "helpIX socIX confideIX  hobbyIX  feelIX"
+egen posfunIXinc = rmean(`POSFUN99')
+* listwise delete*
+gen posfunIX = (hobbyIX + helpIX+ socIX+ confideIX + feelIX)/5
+
+* negative structural items *
+
+* inclusive model*
+local NEGFUN99 "confmoreIX  dsspIX rlosIX frprIX frwrIX"
+egen negfunIXinc = rmean(`NEGFUN99')
+* listwise delete*
+gen negfunIX = ( dsspIX+ rlosIX+ frprIX+ frwrIX + confmoreIX)/5
+
+************************
+*** SOCIAL SUPPORT****** 2009 2009 2009 2009
+************************
+************************
+*** SOCIAL SUPPORT****** 2009 2009 2009 2009
+************************************************
+*** SOCIAL SUPPORT****** 2009 2009 2009 2009
+************************************************
+*** SOCIAL SUPPORT****** 2009 2009 2009 2009
+************************
+
+
+*STRUCURAL SUPPORTS * 
+*STRUCURAL SUPPORTS * 
+*STRUCURAL SUPPORTS * 
+
+** how often visit/are visited by friends * 
+
+clonevar visitfr09 = FRNDC09
+
+recode visitfr09 (7/9=.)(5=100)(4=80)(3=60)(2=40)(1=20), gen (visitIX09)
+replace visitIX09 = 0 if(FRNDC109==2)
+
+* Are there any relatives or friends with whom you have regular contact, either by visit, telephone or letters? *
+* binary*
+*recode FRNDC09 (7/9=.)(1=0)(2=25)(3=50)(4=75)(5=100), gen(contactIX09)
+
+
+* marital status *
+
+recode MARJ09X (2/3=0)(7/9=.), gen(marstat09)
+recode marstat09 (1=100), gen (marIX09)
+
+*How many friends or relatives do you see once a month or more?*
+
+recode FRNDR09 (9=.), gen(numberfr09)
+
+recode numberfr09 (6/9=.)(5=100)(4=75)(3=50)(2=25)(1=0), gen (numberIX09)
+
+*1	None [How many friends/relatives do you see once a month or more?]
+*2	1-2
+*3	3-5
+*4	6-10
+*5	More than 10
+
+** FUNCTIONAL SUPPORTS ***
+** FUNCTIONAL SUPPORTS ***
+** FUNCTIONAL SUPPORTS ***
+
+* POSITIVE ITEMS *
+* POSITIVE ITEMS *
+* POSITIVE ITEMS *
+
+
+
+** 	Do you think that you have friends, neighbours or relatives who would HELP you out if a problem or crisis came up? * 
+
+recode FRNDH09 (9=.), gen(helpfr09)
+
+recode helpfr09 (4=100)(3=66.66666)(2=33.333333)(1=0), gen(helpIX09)
+
+
+** 	Overall do you wish that you had more of a SOICIAL LIFE, or are thing about right for you, or would you prefer to see less of people? *
+
+recode FRNDM09 (9=.), gen(soclife09)
+
+recode soclife09 (2=100)(1=0)(3=0), gen(socIX09)
+
+
+* How much in the last 12 months did you CONFIDE in the person you felt closest to?*
+
+recode FRCD09 (6/9=.), gen(confide09)
+
+recode confide09 (3=100)(2=66.66666)(1=33.333333), gen(confideIX09)
+
+* How much in the last 12 months did this person make you feel good about yourself? *
+
+recode FRFG09 (6/9=.)(3=100)(2=66.66666)(1=33.33333), gen(feelIX09)
+
+
+
+* How much, in the last 12 months, did you share interests, hobbies and fun with the person you felt closest to? *
+
+recode FRSH09 (7/9=.)(-1=.)(1=33.333333)(2=66.6666666)(3=100), gen(hobbyIX09)
+
+* NEGATIVE ITEMS *
+* NEGATIVE ITEMS *
+* NEGATIVE ITEMS *
+
+* dissapointments by spouse in past year * 1=no*
+
+recode DSSP09 (2=1)(1=0)(3/9=.)
+recode DSSP09 (0=100), gen(dsspIX09)
+replace dsspIX09 = 100 if(marstat09==0)
+
+* lost contact wiuthg a close friend/relative * 1= no *
+
+recode RLOS09 (1=0)(2=1)(3/9=.)
+
+recode RLOS09 (0=100), gen(rlosIX09)
+
+* how much worry/stress did person closest give yo uin past year* 1 = none 0= some *
+
+*recode FRPR09 (0=1)(1/3=0)(6/9=.)
+
+recode FRPR09(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frprIX09)
+
+* how much did talking to the perosn you feel closes to to make you feel worse * * 1 = none 0= some *
+
+*recode FRWR09 (0=1)(1/3=0)(6/9=.)(-1=.)
+
+recode FRWR09 (-1=.)(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frwrIX09)
+
+* 	How much in the last 12 months would you have liked to have confided more in the person you felt closest to? *
+
+recode FRCM09 (6/9=.), gen(confidemore09)
+
+recode confidemore09 (3=0)(2=33.333333)(1=66.6666666)(0=100), gen(confmoreIX09)
+* if there is noone they've confided in they are given a score of 0 *
+replace confmoreIX09 = 0 if(FRCD09==0)
+
+************************************************************
+* Cumulative score - index - of social support * 2009 2009 2009 2009 
+************************************************************
+* Cumulative score - index - of social support * 2009 2009 2009 2009 
+************************************************************
+
+*total*
+* inclusive model*
+local SOCSUP09 "visitIX09  numberIX09 helpIX09 socIX09 confideIX09 confmoreIX09  marIX09 dsspIX09 rlosIX09 frprIX09 frwrIX09  hobbyIX09  feelIX09"
+egen socsupIX09inc = rmean(`SOCSUP09')
+* listwise delete*
+gen socsupIX09 = ( visitIX09+  numberIX09+ helpIX09+ socIX09+ confideIX09+ confmoreIX09 + marIX09 + dsspIX09+ rlosIX09+ frprIX09+ frwrIX09 + hobbyIX09 + feelIX09)/13
+
+* strcutrual only *
+
+* inclusive model*
+local STRSOCSUP09 "visitIX09  numberIX09 marIX09"
+egen strsocsupIX09inc = rmean(`STRSOCSUP09')
+* listwise delete*
+gen strsocsupIX09 = (visitIX09  + numberIX09 +marIX09)/3
+
+*functional only*
+
+* inclusive model*
+local FUNSOCSUP09 " helpIX09 socIX09 confideIX09 confmoreIX09 dsspIX09 rlosIX09 frprIX09 frwrIX09  hobbyIX09  feelIX09"
+egen funsocsupIX09inc = rmean(`FUNSOCSUP09')
+* listwise delete*
+gen funsocsupIX09 = (helpIX09+ socIX09+ confideIX09+ confmoreIX09 + dsspIX09+ rlosIX09+ frprIX09+ frwrIX09 + hobbyIX09 + feelIX09)/10
+
+
+* positive functional  items *
+
+* inclusive model*
+local POSFUN09 " helpIX09 socIX09 confideIX09 hobbyIX09  feelIX09"
+egen posfunIX09inc = rmean(`POSFUN09')
+* listwise delete*
+gen posfunIX09 = ( helpIX09+ socIX09+ confideIX09 + hobbyIX09 + feelIX09)/5
+
+* negative functional items *
+* inclusive model*
+local NEGFUN09 " confmoreIX09 dsspIX09 rlosIX09 frprIX09 frwrIX09"
+egen negfunIX09inc = rmean(`NEGFUN09')
+* listwise delete*
+gen negfunIX09 = ( dsspIX09+ rlosIX09+ frprIX09+ frwrIX09+ confmoreIX09)/5
+
+
+
+************************************************************************************************************************
+************************************************************************************************************************
+************************************************************************************************************************
+************************************************************************************************************************
+************************************************************************************************************************
+************************************************************
+* CUMULATIVE SOCIAL SUPPORT SCORES FOR 99 AND 09 *
+************************************************************************************************************************
+************************************************************************************************************************
+************************************************************************************************************************
+************************************************************************************************************************
+************************************************************************************************************************
+
+*total*
+
+* inclusive model*
+local SOCSUPTOT "visitIX  numberIX helpIX socIX confideIX confmoreIX  marIX marIX09 dsspIX rlosIX frprIX frwrIX  hobbyIX  feelIX visitIX09  numberIX09 helpIX09 socIX09 confideIX09 confmoreIX09 dsspIX09 rlosIX09 frprIX09 frwrIX09  hobbyIX09  feelIX09"
+egen socsupTOTinc = rmean(`SOCSUPTOT')
+* listwise delete*
+
+gen socsupTOT = ( visitIX+  numberIX+ helpIX+ socIX+ confideIX+ confmoreIX + marIX+ marIX09+ dsspIX+ rlosIX+ frprIX+ frwrIX + visitIX09+  numberIX09+ helpIX09+ socIX09+ confideIX09+ confmoreIX09 +  dsspIX09+ rlosIX09+ frprIX09+ frwrIX09 + hobbyIX + hobbyIX09 + feelIX+ feelIX09)/26
+gen socsupSUM =  (visitIX+  numberIX+ helpIX+ socIX+ confideIX+ confmoreIX + marIX+ marIX09+ dsspIX+ rlosIX+ frprIX+ frwrIX + visitIX09+  numberIX09+ helpIX09+ socIX09+ confideIX09+ confmoreIX09 +  dsspIX09+ rlosIX09+ frprIX09+ frwrIX09 + hobbyIX + hobbyIX09 + feelIX+ feelIX09)/10
+
+* strcutural only *
+
+* inclusive model*
+local STRSOCSUPTOT "visitIX  numberIX marIX marIX09 visitIX09  numberIX09 "
+egen strsocsupTOTinc = rmean(`STRSOCSUPTOT')
+* listwise delete*
+gen strsocsupTOT = (visitIX  + numberIX +marIX +marIX09+ visitIX09  + numberIX09 )/6
+gen strsocsupSUM = (visitIX  + numberIX +marIX +marIX09+ visitIX09  + numberIX09)/10
+
+* functional only*
+
+* inclusive model*
+local FUNSOCSUPTOT " helpIX socIX confideIX confmoreIX dsspIX rlosIX frprIX frwrIX  hobbyIX  feelIX helpIX09 socIX09 confideIX09 confmoreIX09 dsspIX09 rlosIX09 frprIX09 frwrIX09  hobbyIX09  feelIX09"
+egen funsocsupTOTinc = rmean(`STRSOCSUPTOT')
+* listwise delete*
+gen funsocsupTOT = (helpIX+ socIX+ confideIX+ confmoreIX + dsspIX+ rlosIX+ frprIX+ frwrIX+ helpIX09+ socIX09+ confideIX09+ confmoreIX09 + dsspIX09+ rlosIX09+ frprIX09+ frwrIX09+ hobbyIX + hobbyIX09 + feelIX+ feelIX09)/20
+gen funsocsupSUM = (helpIX+ socIX+ confideIX+ confmoreIX + dsspIX+ rlosIX+ frprIX+ frwrIX+ helpIX09+ socIX09+ confideIX09+ confmoreIX09 + dsspIX09+ rlosIX09+ frprIX09+ frwrIX09+ hobbyIX + hobbyIX09 + feelIX+ feelIX09)/10
+
+* positive functional items *
+
+* inclusive model*
+local POSFUNTOT " helpIX socIX confideIX hobbyIX  feelIX helpIX09 socIX09 confideIX09 hobbyIX09  feelIX09"
+egen posfunTOTinc = rmean(`POSFUNTOT')
+* listwise delete*
+
+gen posfunTOT = ( helpIX+ socIX+ confideIX +helpIX09+ socIX09+ confideIX09 + hobbyIX + hobbyIX09 + feelIX+ feelIX09)/10
+gen posfunSUM =  (helpIX+ socIX+ confideIX +helpIX09+ socIX09+ confideIX09 + hobbyIX + hobbyIX09 + feelIX+ feelIX09)/10
+
+* negative functional items *
+
+* inclusive model*
+local NEGFUNTOT "  confmoreIX dsspIX rlosIX frprIX frwrIX   confmoreIX09 dsspIX09 rlosIX09 frprIX09 frwrIX09  "
+egen negfunTOTinc = rmean(`NEGFUNTOT')
+* listwise delete*
+gen negfunTOT = ( dsspIX+ rlosIX+ frprIX+ frwrIX + dsspIX09+ rlosIX09+ frprIX09+ frwrIX09+ confmoreIX+ confmoreIX09)/10
+gen negfunSUM =  (dsspIX+ rlosIX+ frprIX+ frwrIX + dsspIX09+ rlosIX09+ frprIX09+ frwrIX09+ confmoreIX+ confmoreIX09)/10
+
+
+***** SPLITTING ALL THE SOC SUP VARIABLES INTO QUARTILES * they're non-normal, so they can be analysis here 
+foreach var of varlist socsupIX funsocsupIX strsocsupIX posfunIX negfunIX socsupIX09 funsocsupIX09 strsocsupIX09 posfunIX09 negfunIX09 socsupTOT funsocsupTOT strsocsupTOT posfunTOT negfunTOT {
+xtile `var'_Q = `var', nq(4)
+}
+
+xtile ssSUM4 = socsupSUM, nq(4)
+
+************************
+*** HEALTH BEHAVIORS ******
+************************
+
+* exercise * 1= yes *
+recode exer (9=.)(2=0)
+
+recode EXER99X (7/88=.), gen(exer99)
+
+* have to have answered yes to exercvise for the followup questions so will exclude **
+
+* exercise - number of times made sweaty * 
+*recode exers (999=.)
+
+* exercise - number of times in last four weeks did sports vigouros activity * 
+*recode exern (999=.)
+
+
+*** exercise at 2009 ***
+clonevar exer09 = exer09x
+recode exer09 (777/999=.)
+
+
+** exercise in 199 and 2009 **
+
+gen exerTOT = .
+replace exerTOT = 0 if (exer09 ==0 & exer==0)
+replace exerTOT = 1 if (exer09 ==0 & exer ==1)
+replace exerTOT = 2 if (exer09 >=1 & exer==0)
+replace exerTOT = 3 if (exer09 >=1 & exer==1)
+
+label define exerTOT 0 "Never exercise" 1 "Exercise in 99 not 09" 2 "Exercise in 09 not 99" 3 "Exercise in 09 and 99"
+label values exerTOT exerTOT
+
+gen exerSUM = (exer99 + exer09)
+xtile exerSUM4 = exerSUM, nq(4)
