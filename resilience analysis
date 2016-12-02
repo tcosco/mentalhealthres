@@ -59,3 +59,5 @@ replace restot99 = 1 if (ghq993==1 & totalr==3)
 replace restot99 = 1 if (ghq993==1 & totalr==4)
 replace restot99 = 0 if (ghq993==2)
 replace restot99 = 0 if (ghq993==3)
+
+****
