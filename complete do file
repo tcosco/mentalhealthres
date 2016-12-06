@@ -1006,3 +1006,6 @@ xtile exerSUM4 = exerSUM, nq(4)
 recode AGREETOT14x (-999/-1=.), gen(agree14)
 recode EXTROTOT14x (-999/-1=.), gen(extro14)
 recode CONSCTOT14x (-999/-1=.), gen(consc14)
+
+* neighbourhood *
+recode NBHDA09 (66/99=.), gen(neighbour)
