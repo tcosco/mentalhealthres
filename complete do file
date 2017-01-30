@@ -1061,3 +1061,37 @@ recode lhqr (0/2=1) (3=2) (4/5=3) (6/8=4) (9/10=.), gen(educ26g)
 label var educ26g "Educational level attained (5 cat)"
 label define edulab 1 "None/Sub-GCE" 2 "O-level" 3 "A level or equiv" 4 "Degree or higher"
 label values educ26g edulab
+
+
+
+
+***************************************************************************
+* RESOURCES *
+
+
+*** SOCIAL RESOURCES ***
+
+ aspirations (teacher, study member)
+
+
+* Parental interest in education * 
+
+recode TINT53 (-1/-99999=.), gen(parint53)
+recode TINT57 (-1/-99999=.)(0=.), gen(parint57)
+recode TINT59 (-1/-99999=.), gen(parint59)
+
+*** INDIVIDUAL RESOURCES ***
+
+self-organisation in adolescence  onscientiousness at 68-9y, childhood cognition LTPA 
+
+* SELF _ORGANISATION * 
+
+foreach var of varlist PUN59 TRU59
+recode `var' (-1/-99999=.), gen(`var'C)
+
+foreach var of varlist CONC59
+recode `var' (-1/-99999=.)(1=0)(2=1)(3=2), gen(`var'C)
+
+
+*** ENVIRONMENTAL RESOURCES ***
+
