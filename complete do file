@@ -550,8 +550,8 @@ recode ghq0199_BIN (0/4=0)(4/50=1)
 ***** GHW NO DISTRESS ALL WAVES ****
 
 gen ghq9915BIN = .
-replace ghq9915BIN = 0 if(ghq15_BIN== 0 &  gen ghq09_BIN ==0 &  ghq0199_BIN==0)
-replace ghq9915BIN = 1 if(ghq15_BIN== 1 |  gen ghq09_BIN == 1 |  ghq0199_BIN==1)
+replace ghq9915BIN = 0 if(ghq15_BIN== 0 &  ghq09_BIN ==0 &  ghq0199_BIN==0)
+replace ghq9915BIN = 1 if(ghq15_BIN== 1 |  ghq09_BIN == 1 |  ghq0199_BIN==1)
 
 
 
