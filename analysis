@@ -1,0 +1,26 @@
+
+, c, as well as the variables you’ve already had an initial look at (LTPA, ). 
+And under social resources: , as well as all the social relationship variables you’ve already looked at (social contact, positive and negative support from close person, interpersonal life events).
+
+**** ANALYSIS VARIABLES ****
+
+
+
+*** SOCIAL RESOURCES ***
+
+ aspirations (teacher, study member)
+
+* Parental interest in education * 
+
+recode TINT53 (-1/-99999=.), gen(parint53)
+recode TINT57 (-1/-99999=.)(0=.), gen(parint57)
+recode TINT59 (-1/-99999=.), gen(parint59)
+
+*** INDIVIDUAL RESOURCES ***
+
+self-organisation in adolescence  onscientiousness at 68-9y, childhood cognition LTPA 
+
+
+
+
+*** ENVIRONMENTAL RESOURCES ***
