@@ -1076,9 +1076,13 @@ label values educ26g edulab
 
 * Parental interest in education * 
 
-recode TINT53 (-1/-99999=.), gen(parint53)
-recode TINT57 (-1/-99999=.)(0=.), gen(parint57)
-recode TINT59 (-1/-99999=.), gen(parint59)
+recode TINT53 (-99999/-1=.), gen(parint53)
+recode TINT57 (-99999/-1=.)(0=.), gen(parint57)
+recode TINT59 (-99999/-1=.), gen(parint59)
+
+***** total score *****
+
+gen PARINT = ( parint53 + parint57+ parint59)
 
 *** INDIVIDUAL RESOURCES ***
 
