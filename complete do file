@@ -1180,3 +1180,7 @@ gen selforg1315 = selforg13 + selforg15
 
 *** ENVIRONMENTAL RESOURCES ***
 
+
+**INFLAM**
+recode BIOMIL609 (77/999999=.), gen(il6)
+recode CREAPROT09 (77/999999=.), gen(crp)
