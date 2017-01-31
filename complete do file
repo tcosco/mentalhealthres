@@ -303,7 +303,7 @@ tab clsh,m
 **Child Maltreatment **** 
 gen maltrt=pamis89
  codebook maltrt
- replace maltrt=. if pamis89==9
+ replace maltrt=. if pamis89==999
  tab maltrt,m
 
 
@@ -482,7 +482,18 @@ replace totalr=. if nmiss5
 replace totalr=4 if totalr>=5 & totalr!=.
 proportion totalr
 
+
+**********************************************************************************************
+**********************************************************************************************
+*** MULTIPLE IMPUTATION ****
+**********************************************************************************************
+**********************************************************************************************
+
 *Mood disorder
+**Construct variable
+gen mentl = (GHQ0109+1) + (GHQ0209+1) + (GHQ0309+1)+ (GHQ0409+1)+ (GHQ0509+1)+ (GHQ0609+1)+ (GHQ0709+1)+ (GHQ0809+1)+ (GHQ0909+1)+ (GHQ1009+1)+ (GHQ1109+1)+ (GHQ1209+1)+ (GHQ1309+1)+ (GHQ1409+1)+ (GHQ1509+1)+ (GHQ1609+1)+ (GHQ1709+1)+ (GHQ1809+1)+ (GHQ1909+1)+ (GHQ2009+1)+ (GHQ2109+1)+ (GHQ2209+1)+ (GHQ2309+1)+ (GHQ2409+1)+ (GHQ2509+1)+ (GHQ2609+1)+ (GHQ2709+1)+ (GHQ2809+1)
+label var mentl "General Health Questionnaire 28 (min score 28/max score 112)"
+
 
 *Setting up
 mi set wide
@@ -493,42 +504,29 @@ mi impute chained (logit, include (sex)) sclas own amen2 crowd reprs2 ccln2  hcl
 
 
 *Cumulative socioeconomic risk
-mi passive: egen scr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
-mi passive: egen nmiss12=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
-mi passive:replace scr=. if nmiss12
-mi passive: replace scr=3 if scr>=4 & scr<=8
-mi estimate: proportion scr
+mi passive: egen scrMI=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+mi passive: egen nmiss1211=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+mi passive:replace scrMI=. if nmiss1211
+mi passive: replace scrMI=3 if scrMI>=4 & scrMI<=8
+mi estimate: proportion scrMI
 
 
 *Cumulative psychosocial risk
-mi passive: egen psychscr=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive: egen nmiss2=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive: replace psychscr=. if nmiss2
-mi passive: replace psychscr=3 if psychscr>=4 & psychscr<=6
-mi estimate: proportion psychscr
+mi passive: egen psychscrMI=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive: egen nmiss211=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive: replace psychscrMI=. if nmiss211
+mi passive: replace psychscrMI=3 if psychscrMI>=4 & psychscrMI<=6
+mi estimate: proportion psychscrMI
 
 
 ***Cumualtive  Total Risk
-mi passive: egen totalr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive:egen nmiss5=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive:replace totalr=. if nmiss5
-mi passive: replace totalr=4 if totalr>=5 & totalr!=.
-mi estimate: proportion psychscr
+mi passive: egen totalrMI=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive:egen nmiss511=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive:replace totalrMI=. if nmiss511
+mi passive: replace totalrMI=4 if totalrMI>=5 & totalrMI!=.
+mi estimate: proportion totalrMI
 
-*Then drop missing observations in outcome
-drop if mentl==.
 
-**Regression- Exposure between Cumulative Risk Scores and Mood disorder
-mi estimate: regress mentl  i.totalr sex
-mi estimate: regress mentl  i.scr sex
-mi estimate: regress mentl  i.psychscr sex
-mi estimate: regress mentl  i.scr i.psychscr sex
-
-*Exposure-Outcome Association
-mi estimate: regress mentl  totalr sex
-mi estimate:  regress mentl scr sex
-mi estimate:  regress mentl  psychscr sex
-mi estimate:  regress mentl  scr psychscr sex
 
 
 **Not imputed**
