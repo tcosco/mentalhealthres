@@ -304,6 +304,7 @@ tab clsh,m
 gen maltrt=pamis89
  codebook maltrt
  replace maltrt=. if pamis89==999
+ replace maltrt=. if pamis89==9
  tab maltrt,m
 
 
