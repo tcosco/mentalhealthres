@@ -300,11 +300,11 @@ tab clsh,m
 
 ******PSYCHOSOCIAL RISK FACTORS**********
 
-**Child Maltreatment **** doesnt exist!? *
- *gen maltrt=pamis89
-* codebook maltrt
-* replace maltrt=. if pamis89==9
-* tab maltrt,m
+**Child Maltreatment **** 
+gen maltrt=pamis89
+ codebook maltrt
+ replace maltrt=. if pamis89==9
+ tab maltrt,m
 
 
 
@@ -465,22 +465,107 @@ replace scr=. if nmiss12
 replace scr=3 if scr>=4 & scr<=8
 proportion scr
 
-* REMOVED MALTRT * 
+
 *Cumulative psychosocial risk
-egen psychscr=rowtotal( tint2 psych div dpbi mpbi pdth2 sep)
-egen nmiss2=rowmiss( tint2 psych div dpbi mpbi pdth2 sep)
+egen psychscr=rowtotal( tint2 psych div dpbi mpbi pdth2 sep maltrt)
+egen nmiss2=rowmiss( tint2 psych div dpbi mpbi pdth2 sep maltrt)
 replace psychscr=. if nmiss2
 replace psychscr=3 if psychscr>=4 & psychscr<=6
 proportion psychscr
 
-* REMOVED MALTRT * 
+ 
 
-***Cumualtive Total Risk
-egen totalr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own tint2 psych div dpbi mpbi pdth2 sep)
-egen nmiss5=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own tint2 psych div dpbi mpbi pdth2 sep)
+***Cumualtive Total Risk ***
+egen totalr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own tint2 psych div dpbi mpbi pdth2 sep maltrt)
+egen nmiss5=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own tint2 psych div dpbi mpbi pdth2 sep maltrt)
 replace totalr=. if nmiss5
 replace totalr=4 if totalr>=5 & totalr!=.
 proportion totalr
+
+*Mood disorder
+
+*Setting up
+mi set wide
+mi register imputed sclas own amen2 crowd reprs2 ccln2  hcln2 clsh maltrt tint2 mpbi dpbi pdth2 sep mentl
+mi register regular sex psych div
+
+mi impute chained (logit, include (sex)) sclas own amen2 crowd reprs2 ccln2  hcln2 clsh maltrt tint2 mpbi dpbi pdth2 sep (regress, include (sex)) mentl, add(10) rseed(4409) force
+
+
+*Cumulative socioeconomic risk
+mi passive: egen scr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+mi passive: egen nmiss12=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+mi passive:replace scr=. if nmiss12
+mi passive: replace scr=3 if scr>=4 & scr<=8
+mi estimate: proportion scr
+
+
+*Cumulative psychosocial risk
+mi passive: egen psychscr=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive: egen nmiss2=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive: replace psychscr=. if nmiss2
+mi passive: replace psychscr=3 if psychscr>=4 & psychscr<=6
+mi estimate: proportion psychscr
+
+
+***Cumualtive  Total Risk
+mi passive: egen totalr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive:egen nmiss5=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive:replace totalr=. if nmiss5
+mi passive: replace totalr=4 if totalr>=5 & totalr!=.
+mi estimate: proportion psychscr
+
+*Then drop missing observations in outcome
+drop if mentl==.
+
+**Regression- Exposure between Cumulative Risk Scores and Mood disorder
+mi estimate: regress mentl  i.totalr sex
+mi estimate: regress mentl  i.scr sex
+mi estimate: regress mentl  i.psychscr sex
+mi estimate: regress mentl  i.scr i.psychscr sex
+
+*Exposure-Outcome Association
+mi estimate: regress mentl  totalr sex
+mi estimate:  regress mentl scr sex
+mi estimate:  regress mentl  psychscr sex
+mi estimate:  regress mentl  scr psychscr sex
+
+
+**Not imputed**
+
+*Cumulative socioeconomic risk
+*egen scr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+*egen nmiss12=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+*replace scr=. if nmiss12
+*replace scr=3 if scr>=4 & scr<=8
+*proportion scr
+
+
+*Cumulative psychosocial risk
+*egen psychscr=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*egen nmiss2=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*replace psychscr=. if nmiss2
+*replace psychscr=3 if psychscr>=4 & psychscr<=6
+*proportion psychscr
+
+
+***Cumualtive  Total Risk
+*egen totalr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*egen nmiss5=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*replace totalr=. if nmiss5
+*replace totalr=4 if totalr>=5 & totalr!=.
+*proportion psychscr
+
+*xi: regress mentl  i.totalr sex
+*xi: regress mentl  i.scr sex
+*xi: regress mentl  i.psychscr sex
+*xi: regress mentl  i.scr i.psychscr sex
+
+*xi: regress lnmentl  i.totalr sex
+*xi: regress lnmentl  i.scr sex
+*xi: regress lnmentl  i.psychscr sex
+*xi: regress lnmentl  i.scr i.psychscr sex8
+
 
 
 *****************************************************************************************************
