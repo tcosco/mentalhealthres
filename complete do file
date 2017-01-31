@@ -1154,7 +1154,7 @@ label values educ26g edulab
 
 *** SOCIAL RESOURCES ***
 
- aspirations (teacher, study member)
+
 
 
 * Parental interest in education * 
@@ -1163,21 +1163,18 @@ recode TINT53 (-99999/-1=.), gen(parint53)
 recode TINT57 (-99999/-1=.)(0=.), gen(parint57)
 recode TINT59 (-99999/-1=.), gen(parint59)
 
-***** total score *****
-
 gen PARINT = ( parint53 + parint57+ parint59)
 
 *** INDIVIDUAL RESOURCES ***
 
-self-organisation in adolescence  onscientiousness at 68-9y, childhood cognition LTPA 
+
 
 * SELF _ORGANISATION * 
 
-foreach var of varlist PUN59 TRU59
-recode `var' (-1/-99999=.), gen(`var'C)
+clonevar selforg13=SC13EFA
+clonevar selforg15=SC15EFA
 
-foreach var of varlist CONC59
-recode `var' (-1/-99999=.)(1=0)(2=1)(3=2), gen(`var'C)
+gen selforg1315 = selforg13 + selforg15
 
 
 *** ENVIRONMENTAL RESOURCES ***
