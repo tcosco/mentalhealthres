@@ -306,6 +306,11 @@ gen maltrt=pamis89
  replace maltrt=. if pamis89==999
  replace maltrt=. if pamis89==9
  tab maltrt,m
+ 
+ 
+ 
+ 
+ 
 
 
 
@@ -1183,3 +1188,52 @@ gen selforg1315 = selforg13 + selforg15
 **INFLAM**
 recode BIOMIL609 (77/999999=.), gen(il6)
 recode CREAPROT09 (77/999999=.), gen(crp)
+
+
+
+
+
+*******************************************************************************
+* RESILIENCE *
+*******************************************************************************
+
+* resilience to psychosocial risk factors * 
+
+gen psychres = .
+replace psychres = 1 if(ghq9915BIN==0 & psychscr==2)
+replace psychres = 1 if(ghq9915BIN==0 & psychscr==3)
+replace psychres = 0 if(ghq9915BIN==1 & psychscr==3)
+replace psychres = 0 if(ghq9915BIN==1 & psychscr==2)
+replace psychres = 0 if(ghq9915BIN==1 & psychscr==1)
+replace psychres = 0 if(ghq9915BIN==1 & psychscr==0)
+replace psychres = 0 if(ghq9915BIN==0 & psychscr==1)
+
+* socioeconomic reslience *
+
+gen socres = .
+replace socres = 1 if(ghq9915BIN==0 & scr==2)
+replace socres = 1 if(ghq9915BIN==0 & scr==3)
+replace socres = 0 if(ghq9915BIN==1 & scr==3)
+replace socres = 0 if(ghq9915BIN==1 & scr==2)
+replace socres = 0 if(ghq9915BIN==1 & scr==1)
+
+* total resilience * 
+
+gen totres = .
+replace totres = 0 if(ghq9915BIN==0 & totalr==0)
+replace totres = 0 if(ghq9915BIN==0 & totalr==1)
+replace totres = 0 if(ghq9915BIN==0 & totalr==2)
+replace totres = 1 if(ghq9915BIN==0 & totalr==3)
+replace totres = 1 if(ghq9915BIN==0 & totalr==4)
+replace totres = 0 if(ghq9915BIN==1 & totalr==0)
+replace totres = 0 if(ghq9915BIN==1 & totalr==1)
+replace totres = 0 if(ghq9915BIN==1 & totalr==2)
+replace totres = 0 if(ghq9915BIN==1 & totalr==3)
+replace totres = 0 if(ghq9915BIN==1 & totalr==4)
+
+
+
+
+
+
+
