@@ -1157,7 +1157,7 @@ gen SEP=.
 replace SEP=SC53 if(SC53<7)
 replace SEP=sc43 if(SC53>6 & sc43<7)
 replace SEP=sc36 if(sc43>6 & SC53>6 & sc36<7)
-replace SEP=. if sep==0
+replace SEP=. if SEP==0
 recode SEP (6=1)(5=2)(4=3)(3=4)(2=5)(1=6)
 label variable SEP "Summary Participant's Adult Social Class"
 label define SEP 6 "I Professional" 5 "II Intermediate " 4 "IIINM Skilled (Non-manual)" 3 "IIM Skilled (Manual)" 2 "IV Partly skilled" 1 "V Unskilled"
