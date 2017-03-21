@@ -1216,6 +1216,7 @@ replace psychres = 0 if(ghq9915BIN==1 & psychscr==2)
 replace psychres = 0 if(ghq9915BIN==1 & psychscr==1)
 replace psychres = 0 if(ghq9915BIN==1 & psychscr==0)
 replace psychres = 0 if(ghq9915BIN==0 & psychscr==1)
+replace psychres = 0 if(ghq9915BIN==0 & psychscr==0)
 
 * socioeconomic reslience *
 
@@ -1225,6 +1226,9 @@ replace socres = 1 if(ghq9915BIN==0 & scr==3)
 replace socres = 0 if(ghq9915BIN==1 & scr==3)
 replace socres = 0 if(ghq9915BIN==1 & scr==2)
 replace socres = 0 if(ghq9915BIN==1 & scr==1)
+replace socres = 0 if(ghq9915BIN==0 & scr==1)
+replace socres = 0 if(ghq9915BIN==0 & scr==0)
+replace socres = 0 if(ghq9915BIN==1 & scr==0)
 
 * total resilience * 
 
