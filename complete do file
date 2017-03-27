@@ -643,6 +643,8 @@ replace ghq9915BIN = 0 if(ghq15_BIN== 0 &  ghq09_BIN ==0 &  ghq0199_BIN==0)
 replace ghq9915BIN = 1 if(ghq15_BIN== 1 |  ghq09_BIN == 1 |  ghq0199_BIN==1)
 
 
+***** GHW AVERAGE SCORE ALL WAVES ****
+gen ghqAVE = ( ghq15_LIKERT+ ghq09_LIKERT+ ghq0199_LIKERT)/3
 
 * split the ghq scores into tertiles for analysis * 
 
@@ -1189,6 +1191,13 @@ clonevar selforg13=SC13EFA
 clonevar selforg15=SC15EFA
 
 gen selforg1315 = selforg13 + selforg15
+
+* CHILDHOOD COGNITION *
+
+*sum score of 8, 11, and 15 ages *
+
+gen COG = cog11h+ cog15h+ cog8h
+
 
 
 *** ENVIRONMENTAL RESOURCES ***
