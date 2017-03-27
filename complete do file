@@ -492,16 +492,19 @@ proportion totalr
 *** BINARY RISK SCORES *****
 
 gen psychBIN = .
+replace psychBIN = 0 if(psychscr==0)
 replace psychBIN = 0 if(psychscr==1)
 replace psychBIN = 1 if(psychscr==2)
 replace psychBIN = 1 if(psychscr==3)
 
 gen scrBIN = .
+replace scrBIN = 0 if(scr==0)
 replace scrBIN = 0 if(scr==1)
 replace scrBIN = 1 if(scr==2)
 replace scrBIN = 1 if(scr==3)
 
 gen totBIN = .
+replace totBIN = 0 if(totalr==0)
 replace totBIN = 0 if(totalr==1)
 replace totBIN = 0 if(totalr==2)
 replace totBIN = 1 if(totalr==3)
