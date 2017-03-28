@@ -1314,6 +1314,23 @@ foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSU
 regress ghqlog c.`var'##totalr
 regress ghqlog c.`var'##psychscr
 regress ghqlog c.`var'##scr
+regress ghqlog c.`var'##c.totalr
+regress ghqlog c.`var'##c.psychscr
+regress ghqlog c.`var'##c.scr
+}
+
+* identifying resources assocuated with greater resilience * 
+
+foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
+logistic totres `var'
+logistic totres sex `var'
+logistic totres sex##c.`var'
+logistic psychres `var'
+logistic psychres sex `var'
+logistic psychres sex##c.`var'
+logistic socres `var'
+logistic socres sex `var'
+logistic socres sex##c.`var'
 }
 
 
