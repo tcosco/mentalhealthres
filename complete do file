@@ -510,6 +510,16 @@ replace totBIN = 0 if(totalr==2)
 replace totBIN = 1 if(totalr==3)
 replace totBIN = 1 if(totalr==4)
 
+
+
+
+
+
+
+
+
+
+
 **********************************************************************************************
 **********************************************************************************************
 *** MULTIPLE IMPUTATION ****
@@ -1333,7 +1343,41 @@ logistic socres sex `var'
 logistic socres sex##c.`var'
 }
 
+**** SENSITIVITY ANALYSIS EXAMINING GHQ AT 53 ****
 
+* relationship between GHQ-28 and risk factors *
 
+gen ghq99log = ln(ghq0199_LIKERT)
 
+foreach var of varlist totalr psychscr scr{
+regress ghq99log `var'
+regress ghq99log sex `var'
+regress ghq99log sex##`var'
+}
 
+* interaction method to identify "protective factors" amonngst resources *
+
+foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
+regress ghq99log c.`var'##totalr
+regress ghq99log c.`var'##psychscr
+regress ghq99log c.`var'##scr
+regress ghq99log c.`var'##c.totalr
+regress ghq99log c.`var'##c.psychscr
+regress ghq99log c.`var'##c.scr
+}
+
+* MEDIATION ANALYSIS *
+
+foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
+sem (sex psychscr -> ghqlog, ) (sex psychscr -> `var', ) (sex `var' -> ghqlog, ), method(mlmv) nocapslatent
+estat teffects
+estat gof, stats(all)
+}
+
+* MASTEN ANALYSIS*
+
+foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
+logistic psychr sex `var'
+logistic socr sex `var'
+logistic totr sex `var'
+}
