@@ -1126,6 +1126,8 @@ xtile `var'_Q = `var', nq(4)
 
 xtile ssSUM4 = socsupSUM, nq(4)
 
+zscore socsupSUM funsocsupSUM strsocsupSUM
+
 ************************
 *** HEALTH BEHAVIORS ******
 ************************
