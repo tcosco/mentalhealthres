@@ -1105,6 +1105,10 @@ recode EXER99X (7/88=.), gen(exer99)
 clonevar exer09 = exer09x
 recode exer09 (777/999=.)
 
+*** exercise at 2014 ***
+clonevar exer14 = EXER14x
+recode exer14 (-999/-1=.)(3=.)
+
 
 ** exercise in 199 and 2009 **
 
@@ -1117,7 +1121,9 @@ replace exerTOT = 3 if (exer09 >=1 & exer==1)
 label define exerTOT 0 "Never exercise" 1 "Exercise in 99 not 09" 2 "Exercise in 09 not 99" 3 "Exercise in 09 and 99"
 label values exerTOT exerTOT
 
-gen exerSUM = (exer99 + exer09)
+* EXERCISE AT 53, 60-64, 68 * 
+
+gen exerSUM = (exer99 + exer09 + exer14)
 xtile exerSUM4 = exerSUM, nq(4)
 
 *** COVARIATES ****
@@ -1139,7 +1145,7 @@ recode NBHDH09 (66/99=.)(5=1)(4=2)(2=4)(1=5), gen(neightalk)
 
 gen NEIGHBOUR = (neighbelong + neighfriend +neighadvice + neighimpro+ neighremain + neighsimilar + neightalk)
 zscore NEIGHBOUR
-clonevar z_NEIGHBOUR = neighbour
+clonevar neighbour = z_NEIGHBOUR 
 
 * education *
 
