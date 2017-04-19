@@ -1011,6 +1011,128 @@ recode confidemore09 (3=0)(2=33.333333)(1=66.6666666)(0=100), gen(confmoreIX09)
 * if there is noone they've confided in they are given a score of 0 *
 replace confmoreIX09 = 0 if(FRCD09==0)
 
+************************
+*** SOCIAL SUPPORT****** 2014 2014
+************************
+************************ 2014 2014
+*** SOCIAL SUPPORT****** 2014 2014
+************************************************
+*** SOCIAL SUPPORT****** 2014 2014
+************************************************
+*** SOCIAL SUPPORT****** 2014 2014
+************************
+
+*STRUCURAL SUPPORTS * 
+*STRUCURAL SUPPORTS * 
+*STRUCURAL SUPPORTS * 
+
+** how often visit/are visited by friends * 
+
+clonevar visitfr14x = FRNDC14x
+
+recode visitfr14x (7/9=.)(5=100)(4=80)(3=60)(2=40)(1=20), gen (visitIX14x)
+replace visitIX14x = 0 if(FRNDC114x==2)
+
+* Are there any relatives or friends with whom you have regular contact, either by visit, telephone or letters? *
+* binary*
+*recode FRNDC14x (7/9=.)(1=0)(2=25)(3=50)(4=75)(5=100), gen(contactIX14x)
+
+
+* marital status *
+
+recode MARJ14xX (2/3=0)(7/9=.), gen(marstat14x)
+recode marstat14x (1=100), gen (marIX14x)
+
+*How many friends or relatives do you see once a month or more?*
+
+recode FRNDR14x (9=.), gen(numberfr14x)
+
+recode numberfr14x (6/9=.)(5=100)(4=75)(3=50)(2=25)(1=0), gen (numberIX14x)
+
+*1	None [How many friends/relatives do you see once a month or more?]
+*2	1-2
+*3	3-5
+*4	6-10
+*5	More than 10
+
+** FUNCTIONAL SUPPORTS ***
+** FUNCTIONAL SUPPORTS ***
+** FUNCTIONAL SUPPORTS ***
+
+* POSITIVE ITEMS *
+* POSITIVE ITEMS *
+* POSITIVE ITEMS *
+
+
+
+** 	Do you think that you have friends, neighbours or relatives who would HELP you out if a problem or crisis came up? * 
+
+recode FRNDH14x (9=.), gen(helpfr14x)
+
+recode helpfr14x (4=100)(3=66.66666)(2=33.333333)(1=0), gen(helpIX14x)
+
+
+** 	Overall do you wish that you had more of a SOICIAL LIFE, or are thing about right for you, or would you prefer to see less of people? *
+
+recode FRNDM14x (9=.), gen(soclife14x)
+
+recode soclife14x (2=100)(1=0)(3=0), gen(socIX14x)
+
+
+* How much in the last 12 months did you CONFIDE in the person you felt closest to?*
+
+recode FRCD14x (6/9=.), gen(confide14x)
+
+recode confide14x (3=100)(2=66.66666)(1=33.333333), gen(confideIX14x)
+
+* How much in the last 12 months did this person make you feel good about yourself? *
+
+recode FRFG14x (6/9=.)(3=100)(2=66.66666)(1=33.33333), gen(feelIX14x)
+
+
+
+* How much, in the last 12 months, did you share interests, hobbies and fun with the person you felt closest to? *
+
+recode FRSH14x (7/9=.)(-1=.)(1=33.333333)(2=66.6666666)(3=100), gen(hobbyIX14x)
+
+* NEGATIVE ITEMS *
+* NEGATIVE ITEMS *
+* NEGATIVE ITEMS *
+
+* dissapointments by spouse in past year * 1=no*
+
+recode DSSP14x (2=1)(1=0)(3/9=.)
+recode DSSP14x (0=100), gen(dsspIX14x)
+replace dsspIX14x = 100 if(marstat14x==0)
+
+* lost contact wiuthg a close friend/relative * 1= no *
+
+recode RLOS14x (1=0)(2=1)(3/9=.)
+
+recode RLOS14x (0=100), gen(rlosIX14x)
+
+* how much worry/stress did person closest give yo uin past year* 1 = none 0= some *
+
+*recode FRPR14x (0=1)(1/3=0)(6/9=.)
+
+recode FRPR14x(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frprIX14x)
+
+* how much did talking to the perosn you feel closes to to make you feel worse * * 1 = none 0= some *
+
+*recode FRWR14x (0=1)(1/3=0)(6/9=.)(-1=.)
+
+recode FRWR14x (-1=.)(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frwrIX14x)
+
+* 	How much in the last 12 months would you have liked to have confided more in the person you felt closest to? *
+
+recode FRCM14x (6/9=.), gen(confidemore14x)
+
+recode confidemore14x (3=0)(2=33.333333)(1=66.6666666)(0=100), gen(confmoreIX14x)
+* if there is noone they've confided in they are given a score of 0 *
+replace confmoreIX14x = 0 if(FRCD14x==0)
+
+
+
 ************************************************************
 * Cumulative score - index - of social support * 2009 2009 2009 2009 
 ************************************************************
@@ -1055,6 +1177,53 @@ local NEGFUN09 " confmoreIX09 dsspIX09 rlosIX09 frprIX09 frwrIX09"
 egen negfunIX09inc = rmean(`NEGFUN09')
 * listwise delete*
 gen negfunIX09 = ( dsspIX09+ rlosIX09+ frprIX09+ frwrIX09+ confmoreIX09)/5
+
+
+************************************************************
+* Cumulative score - index - of social support * 2014x 2014x 2014x 2014x 
+************************************************************
+* Cumulative score - index - of social support * 2014x 2014x 2014x 2014x 
+************************************************************
+
+*total*
+* inclusive model*
+local SOCSUP14x "visitIX14x  numberIX14x helpIX14x socIX14x confideIX14x confmoreIX14x  marIX14x dsspIX14x rlosIX14x frprIX14x frwrIX14x  hobbyIX14x  feelIX14x"
+egen socsupIX14xinc = rmean(`SOCSUP14x')
+* listwise delete*
+gen socsupIX14x = ( visitIX14x+  numberIX14x+ helpIX14x+ socIX14x+ confideIX14x+ confmoreIX14x + marIX14x + dsspIX14x+ rlosIX14x+ frprIX14x+ frwrIX14x + hobbyIX14x + feelIX14x)/13
+
+* strcutrual only *
+
+* inclusive model*
+local STRSOCSUP14x "visitIX14x  numberIX14x marIX14x"
+egen strsocsupIX14xinc = rmean(`STRSOCSUP14x')
+* listwise delete*
+gen strsocsupIX14x = (visitIX14x  + numberIX14x +marIX14x)/3
+
+*functional only*
+
+* inclusive model*
+local FUNSOCSUP14x " helpIX14x socIX14x confideIX14x confmoreIX14x dsspIX14x rlosIX14x frprIX14x frwrIX14x  hobbyIX14x  feelIX14x"
+egen funsocsupIX14xinc = rmean(`FUNSOCSUP14x')
+* listwise delete*
+gen funsocsupIX14x = (helpIX14x+ socIX14x+ confideIX14x+ confmoreIX14x + dsspIX14x+ rlosIX14x+ frprIX14x+ frwrIX14x + hobbyIX14x + feelIX14x)/10
+
+
+* positive functional  items *
+
+* inclusive model*
+local POSFUN14x " helpIX14x socIX14x confideIX14x hobbyIX14x  feelIX14x"
+egen posfunIX14xinc = rmean(`POSFUN14x')
+* listwise delete*
+gen posfunIX14x = ( helpIX14x+ socIX14x+ confideIX14x + hobbyIX14x + feelIX14x)/5
+
+* negative functional items *
+* inclusive model*
+local NEGFUN14x " confmoreIX14x dsspIX14x rlosIX14x frprIX14x frwrIX14x"
+egen negfunIX14xinc = rmean(`NEGFUN14x')
+* listwise delete*
+gen negfunIX14x = ( dsspIX14x+ rlosIX14x+ frprIX14x+ frwrIX14x+ confmoreIX14x)/5
+
 
 
 
