@@ -1156,7 +1156,7 @@ label var educ26g "Educational level attained (5 cat)"
 label define edulab 1 "None/Sub-GCE" 2 "O-level" 3 "A level or equiv" 4 "Degree or higher"
 label values educ26g edulab
 
-
+ 
 * own sep *
 gen SEP=.
 replace SEP=SC53 if(SC53<7)
