@@ -1128,7 +1128,18 @@ recode EXTROTOT14x (-999/-1=.), gen(extro14)
 recode CONSCTOT14x (-999/-1=.), gen(consc14)
 
 * neighbourhood *
-recode NBHDA09 (66/99=.), gen(neighbour)
+
+recode NBHDA09 (66/99=.)(5=1)(4=2)(2=4)(1=5), gen(neighbelong)
+recode NBHDB09 (66/99=.)(5=1)(4=2)(2=4)(1=5), gen(neighfriend)
+recode NBHDC09 (66/99=.)(5=1)(4=2)(2=4)(1=5), gen(neighadvice)
+recode NBHDE09 (66/99=.)(5=1)(4=2)(2=4)(1=5), gen(neighimpro)
+recode NBHDF09 (66/99=.)(5=1)(4=2)(2=4)(1=5), gen(neighremain)
+recode NBHDG09 (66/99=.)(5=1)(4=2)(2=4)(1=5), gen(neighsimilar)
+recode NBHDH09 (66/99=.)(5=1)(4=2)(2=4)(1=5), gen(neightalk)
+
+gen NEIGHBOUR = (neighbelong + neighfriend +neighadvice + neighimpro+ neighremain + neighsimilar + neightalk)
+zscore NEIGHBOUR
+clonevar z_NEIGHBOUR = neighbour
 
 * education *
 
