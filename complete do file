@@ -520,88 +520,6 @@ replace totBIN = 1 if(totalr==4)
 
 
 
-**********************************************************************************************
-**********************************************************************************************
-*** MULTIPLE IMPUTATION ****
-**********************************************************************************************
-**********************************************************************************************
-
-*Mood disorder
-**Construct variable
-gen mentl = (GHQ0109+1) + (GHQ0209+1) + (GHQ0309+1)+ (GHQ0409+1)+ (GHQ0509+1)+ (GHQ0609+1)+ (GHQ0709+1)+ (GHQ0809+1)+ (GHQ0909+1)+ (GHQ1009+1)+ (GHQ1109+1)+ (GHQ1209+1)+ (GHQ1309+1)+ (GHQ1409+1)+ (GHQ1509+1)+ (GHQ1609+1)+ (GHQ1709+1)+ (GHQ1809+1)+ (GHQ1909+1)+ (GHQ2009+1)+ (GHQ2109+1)+ (GHQ2209+1)+ (GHQ2309+1)+ (GHQ2409+1)+ (GHQ2509+1)+ (GHQ2609+1)+ (GHQ2709+1)+ (GHQ2809+1)
-label var mentl "General Health Questionnaire 28 (min score 28/max score 112)"
-
-
-*Setting up
-mi set wide
-mi register imputed sclas own amen2 crowd reprs2 ccln2  hcln2 clsh maltrt tint2 mpbi dpbi pdth2 sep mentl
-mi register regular sex psych div
-
-mi impute chained (logit, include (sex)) sclas own amen2 crowd reprs2 ccln2  hcln2 clsh maltrt tint2 mpbi dpbi pdth2 sep (regress, include (sex)) mentl, add(10) rseed(4409) force
-
-
-*Cumulative socioeconomic risk
-mi passive: egen scrMI=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
-mi passive: egen nmiss1211=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
-mi passive:replace scrMI=. if nmiss1211
-mi passive: replace scrMI=3 if scrMI>=4 & scrMI<=8
-mi estimate: proportion scrMI
-
-
-*Cumulative psychosocial risk
-mi passive: egen psychscrMI=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive: egen nmiss211=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive: replace psychscrMI=. if nmiss211
-mi passive: replace psychscrMI=3 if psychscrMI>=4 & psychscrMI<=6
-mi estimate: proportion psychscrMI
-
-
-***Cumualtive  Total Risk
-mi passive: egen totalrMI=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive:egen nmiss511=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive:replace totalrMI=. if nmiss511
-mi passive: replace totalrMI=4 if totalrMI>=5 & totalrMI!=.
-mi estimate: proportion totalrMI
-
-
-
-
-**Not imputed**
-
-*Cumulative socioeconomic risk
-*egen scr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
-*egen nmiss12=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
-*replace scr=. if nmiss12
-*replace scr=3 if scr>=4 & scr<=8
-*proportion scr
-
-
-*Cumulative psychosocial risk
-*egen psychscr=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
-*egen nmiss2=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
-*replace psychscr=. if nmiss2
-*replace psychscr=3 if psychscr>=4 & psychscr<=6
-*proportion psychscr
-
-
-***Cumualtive  Total Risk
-*egen totalr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
-*egen nmiss5=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
-*replace totalr=. if nmiss5
-*replace totalr=4 if totalr>=5 & totalr!=.
-*proportion psychscr
-
-*xi: regress mentl  i.totalr sex
-*xi: regress mentl  i.scr sex
-*xi: regress mentl  i.psychscr sex
-*xi: regress mentl  i.scr i.psychscr sex
-
-*xi: regress lnmentl  i.totalr sex
-*xi: regress lnmentl  i.scr sex
-*xi: regress lnmentl  i.psychscr sex
-*xi: regress lnmentl  i.scr i.psychscr sex8
-
-
 
 *****************************************************************************************************
 *****************************************************************************************************
@@ -1274,14 +1192,108 @@ gen MASTpsych = .
 replace MASTpsych = 1 if(ghq9915BIN==0 & Mpsych==1)
 * no case - no adversity - competent *
 replace MASTpsych = 2 if(ghq9915BIN==0 & Mpsych==0)
-* case - no adversity - maladaptive *
+* case - no adversity - highly vulnerable *
 replace MASTpsych = 3 if(ghq9915BIN==1 & Mpsych==0)
-* case - adversity - highly vulnerable *
+* case - adversity - maladaptive *
 replace MASTpsych = 4 if(ghq9915BIN==1 & Mpsych==1)
 
-label define MASTpsych 1 "Resilient" 2 "Competent" 3 "Maladaptive" 4 "Highly Vulnerable"
+label define MASTpsych 1 "Resilient" 2 "Competent" 3 "Highly Vulnerable" 4 "Maladaptive" 
 label values MASTpsych MASTpsych
 
+* Binary masten psychosocial * 
+
+gen MASTpsychBIN = .
+replace MASTpsychBIN = 1 if(ghq9915BIN==0 & Mpsych==1)
+replace MASTpsychBIN = 0 if(ghq9915BIN==0 & Mpsych==0)
+replace MASTpsychBIN = 0 if(ghq9915BIN==1 & Mpsych==0)
+replace MASTpsychBIN = 0 if(ghq9915BIN==1 & Mpsych==1)
+
+
+
+
+
+
+**********************************************************************************************
+**********************************************************************************************
+*** MULTIPLE IMPUTATION ****
+**********************************************************************************************
+**********************************************************************************************
+
+*Mood disorder
+**Construct variable
+gen mentl = (GHQ0109+1) + (GHQ0209+1) + (GHQ0309+1)+ (GHQ0409+1)+ (GHQ0509+1)+ (GHQ0609+1)+ (GHQ0709+1)+ (GHQ0809+1)+ (GHQ0909+1)+ (GHQ1009+1)+ (GHQ1109+1)+ (GHQ1209+1)+ (GHQ1309+1)+ (GHQ1409+1)+ (GHQ1509+1)+ (GHQ1609+1)+ (GHQ1709+1)+ (GHQ1809+1)+ (GHQ1909+1)+ (GHQ2009+1)+ (GHQ2109+1)+ (GHQ2209+1)+ (GHQ2309+1)+ (GHQ2409+1)+ (GHQ2509+1)+ (GHQ2609+1)+ (GHQ2709+1)+ (GHQ2809+1)
+label var mentl "General Health Questionnaire 28 (min score 28/max score 112)"
+
+
+*Setting up
+mi set wide
+mi register imputed sclas own amen2 crowd reprs2 ccln2  hcln2 clsh maltrt tint2 mpbi dpbi pdth2 sep ghqAVE
+mi register regular sex psych div
+
+mi impute chained (logit, include (sex)) sclas own amen2 crowd reprs2 ccln2  hcln2 clsh maltrt tint2 mpbi dpbi pdth2 sep (regress, include (sex)) ghqAVE, add(10) rseed(4409) force
+
+
+*Cumulative socioeconomic risk
+mi passive: egen scrMI=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+mi passive: egen nmiss1211=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+mi passive:replace scrMI=. if nmiss1211
+mi passive: replace scrMI=3 if scrMI>=4 & scrMI<=8
+mi estimate: proportion scrMI
+
+
+*Cumulative psychosocial risk
+mi passive: egen psychscrMI=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive: egen nmiss211=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive: replace psychscrMI=. if nmiss211
+mi passive: replace psychscrMI=3 if psychscrMI>=4 & psychscrMI<=6
+mi estimate: proportion psychscrMI
+
+
+
+***Cumualtive  Total Risk
+mi passive: egen totalrMI=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive:egen nmiss511=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+mi passive:replace totalrMI=. if nmiss511
+mi passive: replace totalrMI=4 if totalrMI>=5 & totalrMI!=.
+mi estimate: proportion totalrMI
+
+drop if ghqAVE==.
+
+
+**Not imputed**
+
+*Cumulative socioeconomic risk
+*egen scr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+*egen nmiss12=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+*replace scr=. if nmiss12
+*replace scr=3 if scr>=4 & scr<=8
+*proportion scr
+
+
+*Cumulative psychosocial risk
+*egen psychscr=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*egen nmiss2=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*replace psychscr=. if nmiss2
+*replace psychscr=3 if psychscr>=4 & psychscr<=6
+*proportion psychscr
+
+
+***Cumualtive  Total Risk
+*egen totalr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*egen nmiss5=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*replace totalr=. if nmiss5
+*replace totalr=4 if totalr>=5 & totalr!=.
+*proportion psychscr
+
+*xi: regress mentl  i.totalr sex
+*xi: regress mentl  i.scr sex
+*xi: regress mentl  i.psychscr sex
+*xi: regress mentl  i.scr i.psychscr sex
+
+*xi: regress lnmentl  i.totalr sex
+*xi: regress lnmentl  i.scr sex
+*xi: regress lnmentl  i.psychscr sex
+*xi: regress lnmentl  i.scr i.psychscr sex8
 
 
 ****************************************************************************************************************************
@@ -1375,3 +1387,23 @@ logistic psychr sex `var'
 logistic socr sex `var'
 logistic totr sex `var'
 }
+
+* ANALYSIS WITH MULTIPLE IMPUTATION DATA * 
+
+* PSYCHOSOCIAL ANALYSIS 
+
+* relationship between GHQ-28 and risk factors *
+
+
+mi estimate: regress ghqlog psychscrMI
+mi estimate: regress ghqlog sex psychscrMI
+mi estimate: regress ghqlog sex##c.psychscrMI
+
+foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
+mi estimate: regress ghqlog c.`var'##psychscrMI
+mi estimate: regress ghqlog c.`var'##c.psychscrMI
+
+}
+
+
+
