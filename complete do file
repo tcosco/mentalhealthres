@@ -1279,7 +1279,8 @@ replace MASTpsych = 3 if(ghq9915BIN==1 & Mpsych==0)
 * case - adversity - highly vulnerable *
 replace MASTpsych = 4 if(ghq9915BIN==1 & Mpsych==1)
 
-
+label define MASTpsych 1 "Resilient" 2 "Competent" 3 "Maladaptive" 4 "Highly Vulnerable"
+label values MASTpsych MASTpsych
 
 
 
