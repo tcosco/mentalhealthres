@@ -1263,6 +1263,25 @@ replace totres = 0 if(ghq9915BIN==1 & totalr==3)
 replace totres = 0 if(ghq9915BIN==1 & totalr==4)
 
 
+* MASTEN CATEGORIES *
+
+* psychosocial * 
+
+recode psychscr (2/3=1), gen(Mpsych)
+
+gen MASTpsych = .
+* no caseness and 2/3 adversities  - resilient*
+replace MASTpsych = 1 if(ghq9915BIN==0 & Mpsych==1)
+* no case - no adversity - competent *
+replace MASTpsych = 2 if(ghq9915BIN==0 & Mpsych==0)
+* case - no adversity - maladaptive *
+replace MASTpsych = 3 if(ghq9915BIN==1 & Mpsych==0)
+* case - adversity - highly vulnerable *
+replace MASTpsych = 4 if(ghq9915BIN==1 & Mpsych==1)
+
+
+
+
 
 ****************************************************************************************************************************
 ****************************************************************************************************************************
