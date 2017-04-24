@@ -1039,9 +1039,9 @@ replace exerTOT = 3 if (exer09 >=1 & exer==1)
 label define exerTOT 0 "Never exercise" 1 "Exercise in 99 not 09" 2 "Exercise in 09 not 99" 3 "Exercise in 09 and 99"
 label values exerTOT exerTOT
 
-* EXERCISE AT 53, 60-64, 68 * 
-
-gen exerSUM = (exer99 + exer09 + exer14)
+* EXERCISE AT 53, 60-64 * 
+gen exerSUM = (exer99 + exer09)
+* gen exerSUM = (exer99 + exer09 + exer14)
 xtile exerSUM4 = exerSUM, nq(4)
 
 *** COVARIATES ****
@@ -1399,11 +1399,34 @@ mi estimate: regress ghqlog psychscrMI
 mi estimate: regress ghqlog sex psychscrMI
 mi estimate: regress ghqlog sex##c.psychscrMI
 
+* resource interactions with GHQ *
 foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
 mi estimate: regress ghqlog c.`var'##psychscrMI
 mi estimate: regress ghqlog c.`var'##c.psychscrMI
-
 }
+
+* sex interactions with GHQ *
+foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
+regress ghqlog c.`var'##sex
+}
+
+* fully adjusted model *
+mi estimate: regress ghqlog SEP educ26g exerSUM COG selforg1315 socsupSUM neighbour
+
+* examining realtionship between resources and psych adversity * 
+
+mi estimate: regress socsupSUM sex psychscrMI
+mi estimate: regress strsocsupSUM sex psychscrMI
+mi estimate: regress funsocsupSUM sex psychscrMI
+mi estimate: regress COG sex psychscrMI
+mi estimate: regress selforg1315 sex psychscrMI
+mi estimate: regress neighbour sex psychscrMI
+
+mi estimate: ologit SEP sex psychscrMI, or
+mi estimate, or: ologit SEP sex psychscrMI
+mi estimate, or: ologit exerSUM sex psychscrMI
+mi estimate, or: ologit educ26g sex psychscrMI
+
 
 
 
