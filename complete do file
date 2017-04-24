@@ -1208,6 +1208,9 @@ replace MASTpsychBIN = 0 if(ghq9915BIN==0 & Mpsych==0)
 replace MASTpsychBIN = 0 if(ghq9915BIN==1 & Mpsych==0)
 replace MASTpsychBIN = 0 if(ghq9915BIN==1 & Mpsych==1)
 
+* specifically comparing the maladaptive groiup - case & no adversity - with resilient group - no case & adversity *
+recode MASTpsych (4=0)(2/3=.), gen(malvres)
+
 
 
 
@@ -1363,7 +1366,7 @@ regress ghq99log sex##`var'
 
 * interaction method to identify "protective factors" amonngst resources *
 
-foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
+foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g COG selforg1315  neighbour {
 regress ghq99log c.`var'##totalr
 regress ghq99log c.`var'##psychscr
 regress ghq99log c.`var'##scr
@@ -1374,7 +1377,7 @@ regress ghq99log c.`var'##c.scr
 
 * MEDIATION ANALYSIS *
 
-foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
+foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g COG selforg1315  neighbour {
 sem (sex psychscr -> ghqlog, ) (sex psychscr -> `var', ) (sex `var' -> ghqlog, ), method(mlmv) nocapslatent
 estat teffects
 estat gof, stats(all)
@@ -1382,7 +1385,7 @@ estat gof, stats(all)
 
 * MASTEN ANALYSIS*
 
-foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
+foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g COG selforg1315  neighbour {
 logistic psychr sex `var'
 logistic socr sex `var'
 logistic totr sex `var'
@@ -1400,13 +1403,13 @@ mi estimate: regress ghqlog sex psychscrMI
 mi estimate: regress ghqlog sex##c.psychscrMI
 
 * resource interactions with GHQ *
-foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
+foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g COG selforg1315  neighbour {
 mi estimate: regress ghqlog c.`var'##psychscrMI
 mi estimate: regress ghqlog c.`var'##c.psychscrMI
 }
 
 * sex interactions with GHQ *
-foreach var of varlist SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour {
+foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g COG selforg1315  neighbour {
 regress ghqlog c.`var'##sex
 }
 
