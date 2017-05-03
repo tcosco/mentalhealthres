@@ -1431,5 +1431,26 @@ mi estimate, or: ologit exerSUM sex psychscrMI
 mi estimate, or: ologit educ26g sex psychscrMI
 
 
+* cronbach's alpha for neighoburhood cohesion scale *
 
+alpha neighbelong neighfriend neighadvice neighimpro neighremain neighsimilar neightalk
+
+* examining each of the psychosocial variables by themseelves * 
+
+foreach var of varlist tint2 psych div dpbi mpbi pdth2 sep maltrt {
+regress ghqlog sex `var'
+regress ghqlog sex SEP educ26g exerSUM COG selforg1315 socsupSUM strsocsupSUM funsocsupSUM neighbour `var'
+}
+
+foreach var of varlist tint2 psych div dpbi mpbi pdth2 sep maltrt {
+regress ghqlog c.SEP##c.`var'
+regress ghqlog c.educ26g##c.`var'
+regress ghqlog c.exerSUM##c.`var'
+regress ghqlog c.COG##c.`var'
+regress ghqlog c.selforg1315##c.`var'
+regress ghqlog c.socsupSUM##c.`var'
+regress ghqlog c.strsocsupSUM##c.`var'
+regress ghqlog c.funsocsupSUM##c.`var'
+regress ghqlog c.neighbour##c.`var'
+}
 
