@@ -477,6 +477,7 @@ egen psychscr=rowtotal( tint2 psych div dpbi mpbi pdth2 sep maltrt)
 egen nmiss2=rowmiss( tint2 psych div dpbi mpbi pdth2 sep maltrt)
 replace psychscr=. if nmiss2
 replace psychscr=3 if psychscr>=4 & psychscr<=6
+*recode psychscr (3=2)
 proportion psychscr
 
  
@@ -1249,6 +1250,7 @@ mi passive: egen psychscrMI=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
 mi passive: egen nmiss211=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
 mi passive: replace psychscrMI=. if nmiss211
 mi passive: replace psychscrMI=3 if psychscrMI>=4 & psychscrMI<=6
+* mi passive: replace psychscrMI=2 if psychscrMI>=3 & psychscrMI<=6
 mi estimate: proportion psychscrMI
 
 
