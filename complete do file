@@ -1379,11 +1379,19 @@ regress ghq99log c.`var'##c.scr
 
 * MEDIATION ANALYSIS *
 
+* using SEM *
 foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g COG selforg1315  neighbour {
 sem (sex psychscr -> ghqlog, ) (sex psychscr -> `var', ) (sex `var' -> ghqlog, ), method(mlmv) nocapslatent
 estat teffects
 estat gof, stats(all)
 }
+* using regression *
+foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g COG selforg1315  neighbour {
+mi estimate: regress ghqlog sex 'var' psychscr
+}
+
+
+
 
 * MASTEN ANALYSIS*
 
@@ -1455,4 +1463,7 @@ regress ghqlog c.strsocsupSUM##c.`var'
 regress ghqlog c.funsocsupSUM##c.`var'
 regress ghqlog c.neighbour##c.`var'
 }
+
+
+
 
