@@ -1262,7 +1262,7 @@ mi passive:replace totalrMI=. if nmiss511
 mi passive: replace totalrMI=4 if totalrMI>=5 & totalrMI!=.
 mi estimate: proportion totalrMI
 
-drop if ghqAVE==.
+*drop if ghqAVE==.
 
 
 **Not imputed**
