@@ -1211,6 +1211,8 @@ replace MASTpsychBIN = 0 if(ghq9915BIN==1 & Mpsych==1)
 
 * specifically comparing the maladaptive groiup - case & no adversity - with resilient group - no case & adversity *
 recode MASTpsych (4=0)(2/3=.), gen(malvres)
+* recoded so no case is 1 and case is 0 *
+recode malvres (0=1)(1=0)
 
 
 
@@ -1464,6 +1466,11 @@ regress ghqlog c.funsocsupSUM##c.`var'
 regress ghqlog c.neighbour##c.`var'
 }
 
+***** MISSINGNESS ***
+
+gen ghqMISS = .
+replace ghqMISS = 1 if (ghqAVE==.)
+replace ghqMISS = 0 if (ghqAVE!=.)
 
 
 
