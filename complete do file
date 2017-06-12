@@ -586,7 +586,7 @@ gen ghq0199_BIN = (  ghq0199BIN +ghq0299BIN +ghq0399BIN +ghq0499BIN +ghq0599BIN 
 recode ghq0199_BIN (0/4=0)(5/50=1)
 
 
-***** GHW NO DISTRESS ALL WAVES ****
+***** GHQ NO DISTRESS ALL WAVES ****
 
 gen ghq9915BIN = .
 replace ghq9915BIN = 0 if(ghq15_BIN== 0 &  ghq09_BIN ==0 &  ghq0199_BIN==0)
