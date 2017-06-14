@@ -1392,6 +1392,12 @@ foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g 
 mi estimate: regress ghqlog sex 'var' psychscr
 }
 
+* using binary variables - ie GHQ caseness over time *
+
+foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g COG selforg1315  neighbour {
+binary_mediation, dv(ghq9915BIN) mv(`var') iv(psychscr)
+}
+
 
 
 
