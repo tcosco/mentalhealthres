@@ -1379,6 +1379,13 @@ regress ghq99log c.`var'##c.psychscr
 regress ghq99log c.`var'##c.scr
 }
 
+* GHQ caseness * 
+foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g COG selforg1315  neighbour {
+logistic ghq9915BIN c.`var'##psychscr
+logistic ghq9915BIN c.`var'##c.psychscr
+}
+
+
 * MEDIATION ANALYSIS *
 
 * using SEM *
@@ -1426,13 +1433,22 @@ mi estimate: regress ghqlog c.`var'##psychscrMI
 mi estimate: regress ghqlog c.`var'##c.psychscrMI
 }
 
+
+
 * sex interactions with GHQ *
 foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g COG selforg1315  neighbour {
 regress ghqlog c.`var'##sex
 }
 
+
+foreach var of varlist socsupSUM strsocsupSUM funsocsupSUM  exerSUM SEP educ26g COG selforg1315  neighbour {
+logistic ghq9915BIN c.`var'##sex
+}
+
 * fully adjusted model *
 mi estimate: regress ghqlog SEP educ26g exerSUM COG selforg1315 socsupSUM neighbour
+
+logistic ghq99BIN SEP educ26g exerSUM COG selforg1315 socsupSUM neighbour 
 
 * examining realtionship between resources and psych adversity * 
 
