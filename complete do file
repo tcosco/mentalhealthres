@@ -606,7 +606,8 @@ xtile ghq153 = ghq15_LIKERT, nq(3)
 xtile ghq093 = ghq09_LIKERT, nq(3)
 xtile ghq993 = ghq0199_LIKERT, nq(3)
 
-
+label variable ghqAVE "GHQ average score across 53 60-64 68-69"
+label variable ghqlog "Log average GHQ score age 53 60-64 68-69"
 *******************************************************************
 * resilience scores * 
 
