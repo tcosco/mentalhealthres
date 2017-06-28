@@ -967,7 +967,7 @@ gen frcm63=confmoreIX09
 
 
 
-recode FRCD14x (6/9=.), gen(confide09)
+recode FRCD14x (6/9=.), gen(confide14)
 
 recode confide14 (3=100)(2=66.66666)(1=33.333333), gen(confideIX14)
 
