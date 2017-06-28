@@ -715,15 +715,20 @@ recode frcd99 (6/9=.), gen(confide)
 
 recode confide (3=100)(2=66.66666)(1=33.333333), gen(confideIX)
 
+gen frcd53=confideIX
 
 
 * How much, in the last 12 months, did you share interests, hobbies and fun with the person you felt closest to? *
 
 recode frsh99 (6/9=.)(-1=.)(1=33.333333)(2=66.6666666)(3=100), gen(hobbyIX)
 
+gen frsh53=hobbyIX
+
 * How much in the last 12 months did this person make you feel good about yourself? *
 
 recode frfg99 (6/9=.)(3=100)(2=66.66666)(1=33.33333), gen(feelIX)
+
+gen frfg53=feelIX
 
 * NEGATIVE ITEMS *
 * NEGATIVE ITEMS *
@@ -748,12 +753,15 @@ recode rlos (1=100), gen(rlosIX)
 
 recode frpr99 (6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frprIX)
 
+gen frpr53=frprIX
+
 * how much did talking to the perosn you feel closes to to make you feel worse * * 1 = none 0= some *
 
 *recode frwr99 (0=1)(1/3=0)(6/9=.)(-1=.)
 
 recode frwr99 (-1=.)(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frwrIX)
 
+gen frwr53=frwrIX
 
 * 	How much in the last 12 months would you have liked to have confided more in the person you felt closest to? *
 
@@ -761,6 +769,8 @@ recode frcm99 (6/9=.), gen(confidemore)
 recode confidemore (3=0)(2=33.333333)(1=66.6666666)(0=100), gen(confmoreIX)
 * if there is noone they've confided in they are given a score of 0 *
 replace confmoreIX = 0 if(frcd99==0)
+
+gen frcm53=confmoreIX
 
 ************************************************************
 * Cumulative score - index - of social support * 1999 1999 1999 1999
@@ -885,15 +895,20 @@ recode FRCD09 (6/9=.), gen(confide09)
 
 recode confide09 (3=100)(2=66.66666)(1=33.333333), gen(confideIX09)
 
+gen frcd63=confideIX09
+
 * How much in the last 12 months did this person make you feel good about yourself? *
 
 recode FRFG09 (6/9=.)(3=100)(2=66.66666)(1=33.33333), gen(feelIX09)
 
+gen frfg63=feelIX09
 
 
 * How much, in the last 12 months, did you share interests, hobbies and fun with the person you felt closest to? *
 
 recode FRSH09 (7/9=.)(-1=.)(1=33.333333)(2=66.6666666)(3=100), gen(hobbyIX09)
+
+gen frsh63=hobbyIX09
 
 * NEGATIVE ITEMS *
 * NEGATIVE ITEMS *
@@ -917,11 +932,15 @@ recode RLOS09 (0=100), gen(rlosIX09)
 
 recode FRPR09(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frprIX09)
 
+gen frpr63=frprIX09
+
 * how much did talking to the perosn you feel closes to to make you feel worse * * 1 = none 0= some *
 
 *recode FRWR09 (0=1)(1/3=0)(6/9=.)(-1=.)
 
 recode FRWR09 (-1=.)(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frwrIX09)
+
+gen frwr63=frwrIX09
 
 * 	How much in the last 12 months would you have liked to have confided more in the person you felt closest to? *
 
@@ -931,7 +950,69 @@ recode confidemore09 (3=0)(2=33.333333)(1=66.6666666)(0=100), gen(confmoreIX09)
 * if there is noone they've confided in they are given a score of 0 *
 replace confmoreIX09 = 0 if(FRCD09==0)
 
+gen frcm63=confmoreIX09
 
+  ************************
+*** SOCIAL SUPPORT****** 2015 2015 2015
+************************
+************************
+*** SOCIAL SUPPORT******2015 2015 2015
+************************************************
+*** SOCIAL SUPPORT******2015 2015 2015
+************************************************
+*** SOCIAL SUPPORT****** 2015 2015 2015
+************************
+
+* How much in the last 12 months did you CONFIDE in the person you felt closest to?*
+
+
+
+recode FRCD14x (6/9=.), gen(confide09)
+
+recode confide14 (3=100)(2=66.66666)(1=33.333333), gen(confideIX14)
+
+gen frcd68=confideIX14
+
+* How much in the last 12 months did this person make you feel good about yourself? *
+
+recode FRFG14x (6/9=.)(3=100)(2=66.66666)(1=33.33333), gen(feelIX14x)
+
+gen frfg68=feelIX14x
+
+
+* How much, in the last 12 months, did you share interests, hobbies and fun with the person you felt closest to? *
+
+recode FRSH14x (7/9=.)(-1=.)(1=33.333333)(2=66.6666666)(3=100), gen(hobbyIX14x)
+
+gen frsh68=hobbyIX14x
+
+
+* how much did talking to the perosn you feel closes to to make you feel worse * * 1 = none 0= some *
+
+*recode FRWR14x (0=1)(1/3=0)(6/9=.)(-1=.)
+
+recode FRWR14x (-1=.)(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frwrIX14)
+
+gen frwr68=frwrIX14
+
+
+* how much worry/stress did person closest give yo uin past year* 1 = none 0= some *
+
+*recode FRPR14x (0=1)(1/3=0)(6/9=.)
+
+recode FRPR14x(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frprIX14)
+
+gen frpr68=frprIX14
+
+* 	How much in the last 12 months would you have liked to have confided more in the person you felt closest to? *
+
+recode FRCM14x (6/9=.), gen(confidemore14)
+
+recode confidemore14 (3=0)(2=33.333333)(1=66.6666666)(0=100), gen(confmoreIX14)
+* if there is noone they've confided in they are given a score of 0 *
+replace confmoreIX14 = 0 if(FRCD14x==0)
+
+gen frcm68=confmoreIX14
 
 ************************************************************************************************************************
 ************************************************************************************************************************
@@ -1007,8 +1088,7 @@ zscore socsupSUM funsocsupSUM strsocsupSUM
 *** HEALTH BEHAVIORS ******
 ************************
 
-* exercise * 1= yes *
-recode exer (9=.)(2=0)
+
 
 recode EXER99X (7/88=.), gen(exer99)
 
@@ -1028,6 +1108,8 @@ recode exer09 (777/999=.)
 *** exercise at 2014 ***
 clonevar exer14 = EXER14x
 recode exer14 (-999/-1=.)(3=.)
+
+
 
 
 ** exercise in 199 and 2009 **
@@ -1495,5 +1577,132 @@ gen ghqMISS = .
 replace ghqMISS = 1 if (ghqAVE==.)
 replace ghqMISS = 0 if (ghqAVE!=.)
 
+* LONG_CHLDADVERSITY_GHQ.DO
+* creates long file with chilhdood psychosical adversity and GHQ with mediators
+* Mai Stafford 22nd June
+
+
+*use "H:\nmas\aix\NSHDdata\resilience\MS Dataset 20.06.2017.dta", clear
+*drop _merge
+*merge serno using "H:\nmas\aix\NSHDdata\socrelations\cpq53to68_stata.dta", sort unique
+
+mi extract 0, clear
+
+* n=1222 have valid GHQ data but missing chldhood psychosoc adversity data
+* this missingness is mostly for parental interest in education, parental bonding and maltreatment
+tab psychscr if ghq15_LIKERT!=. | ghq09_LIKERT!=. | ghq0199_LIKERT!=., missing
+tab1 tint2 psych div dpbi mpbi pdth2 sep maltrt if ghq15_LIKERT!=. | ghq09_LIKERT!=. | ghq0199_LIKERT!=., missing
+
+* NOTE THAT GHQ, SOCIAL SUPPORT AND EXERCISE ARE TIME-VARYING. SEP, EDUCATION AND CHILDHOOD VARS ARE CONSTANT FOR EACH STUDY MEMBER
+* NOTE THAT I HAVE USED JUST THE CLOSE PERSONS Q VARS HERE - THIS CAN PROBABLY BE EXTENDED TO INCLUDE STRUCTURAL VARS AT AGES 53, 63, 68
+gen ghqLIKERT68=ghq15_LIKERT
+gen ghqLIKERT63=ghq09_LIKERT 
+gen ghqLIKERT53=ghq0199_LIKERT 
+gen ghqlogLIKERT68=ln(ghqLIKERT68)
+gen ghqlogLIKERT63=ln(ghqLIKERT63)
+gen ghqlogLIKERT53=ln(ghqLIKERT53)
+
+* physical activity *
+drop exer53 exer63 exer68
+gen exer53=exer99
+gen exer63=exer09
+gen exer68=exer14
+
+
+* replacing childhood cognition missing values with previous values *
+gen chldcog=cog8h
+replace chldcog=cog11h if chldcog==.
+replace chldcog=cog15h if chldcog==.
+summ chldcog
+
+* replacing childhood selfoprgansiation missing values with previous values *
+gen chldselforg=selforg13
+replace chldselforg=selforg15 if chldselforg==.
+summ chldselforg
+
+* psychosocial adversities*
+gen psychscr68=psychscr
+gen psychscr63=psychscr
+gen psychscr53=psychscr
+drop psychscr
+
+*exercise* 
+gen exer68=exer14
+gen exer63=exer09
+gen exer53=exer99
+
+* sep * 
+gen SEP68=SEP
+gen SEP63=SEP
+gen SEP53=SEP
+drop SEP
+
+* educaiton * 
+gen educ26g68=educ26g
+gen educ26g63=educ26g
+gen educ26g53=educ26g
+drop educ26g
+
+* childhood cognition *
+gen chldcog68=chldcog
+gen chldcog63=chldcog
+gen chldcog53=chldcog
+drop chldcog
+
+* childhood self organisaiotn * 
+gen chldselforg68=chldselforg
+gen chldselforg63=chldselforg
+gen chldselforg53=chldselforg
+drop chldselforg
+
+* neighbouhoood cohesion * 
+gen neighbour68=neighbour
+gen neighbour63=neighbour
+gen neighbour53=neighbour
+drop neighbour
+drop sex 
+*NEED TO ADD FATHERS SOC CLASS (AND MAYBE OTHER EDITS AS DISCUSSED FOLLOWING COMMENTS FROMN COAUTHORS
+
+*** dropping variables for analysis
+
+keep ghqLIKERT68 ghqLIKERT63 ghqLIKERT53 ghqlogLIKERT68 ghqlogLIKERT63 ghqlogLIKERT53 psychscr68 psychscr63 psychscr53 frcd68 frcm68 frfg68 frsh68 frwr68 frpr68 frcd53 frcm53 frfg53 frpr53 frsh53 frwr53 frcd63 frcm63 frfg63 frpr63 frsh63 frwr63 exer68 exer63 exer53 SEP68 SEP63 SEP53 educ26g68 educ26g63 educ26g53 chldcog68 chldcog63 chldcog53  chldselforg68 chldselforg63 chldselforg53 neighbour68 neighbour63 neighbour53 sex53 sex63 sex68 serno
+
+**** reshaping data ****
+
+reshape long ghqLIKERT ghqlogLIKERT psychscr frcd frfg frsh frwr frpr frcm exer53 exer63 exer68 SEP educ26g chldcog chldselforg neighbour sex, i(serno) j(age)
+gen possupp=frcd+frfg+frsh
+gen negsupp=frcm+frpr+frwr
+
+
+mixed ghqlogLIKERT i.sex i.psychscr || serno:
+mixed ghqlogLIKERT i.sex psychscr || serno:
+mixed ghqlogLIKERT i.sex psychscr  possupp || serno:
+mixed ghqlogLIKERT i.sex c.psychscr##c.possupp  || serno:
+mixed ghqlogLIKERT i.sex psychscr negsupp || serno:
+mixed ghqlogLIKERT i.sex c.psychscr##c.negsupp || serno:
+mixed ghqlogLIKERT i.sex psychscr exer || serno:
+mixed ghqlogLIKERT i.sex c.psychscr##c.exer || serno:
+mixed ghqlogLIKERT i.sex psychscr i.SEP || serno:
+mixed ghqlogLIKERT i.sex psychscr SEP || serno:
+* Check no SE gradient in GHQ for men or women   mixed ghqlogLIKERT psychscr i.sex##c.SEP || serno:
+mixed ghqlogLIKERT i.sex psychscr i.educ26g || serno:
+mixed ghqlogLIKERT i.sex psychscr educ26g || serno:
+* Check no educ gradient in GHQ for men or women   mixed ghqlogLIKERT psychscr i.sex##c.educ26g || serno:
+mixed ghqlogLIKERT i.sex psychscr chldcog || serno:
+mixed ghqlogLIKERT i.sex c.psychscr##c.chldcog || serno:
+mixed ghqlogLIKERT psychscr i.sex##c.chldcog || serno:
+mixed ghqlogLIKERT i.sex psychscr chldselforg || serno:
+mixed ghqlogLIKERT i.sex c.psychscr##c.chldselforg || serno:
+mixed ghqlogLIKERT i.sex psychscr neighbour || serno:
+mixed ghqlogLIKERT i.sex c.psychscr##c.neighbour || serno:
+
+* MULTIPLE IMPUTATION - 
+mi set wide
+mi register imputed psychscr frcd frfg frsh frwr frpr frcm exer SEP educ26g ghqlogLIKERT chldcog chldselforg neighbour
+mi impute chained (ologit, include (sex)) psychscr exer SEP educ26g (regress, include (sex)) ghqlogLIKERT chldcog chldselforg neighbour  frcd frfg frsh frwr frpr frcm, add(2) rseed(4409) force
+drop if ghqlogLIKERT==.
+* DROP IF MORE THAN 3 MISSING PSYCH ADVERSITIES?
+* to add in **
+mi estimate: mixed ghqlogLIKERT i.sex psychscr  exer|| serno:
 
 
