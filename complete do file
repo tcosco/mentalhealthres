@@ -1686,8 +1686,16 @@ gen fsep53=class2x
 gen fsep63=class2x
 gen fsep68=class2x
 
+gen posSS=(frcd53+frcd63+frcd68+frfg53+frfg63+frfg68+frsh53+frsh63+frsh68)
 
+gen posSS53=(frcd53+frfg53+frsh53)
+gen posSS63=(frcd63+frfg63+frsh63)
+gen posSS68=(frcd68+frfg68+frsh68)
 
+gen negSS=(frcm53+frcm63+frcm68+frpr53+frpr63+frpr68+frwr53+frwr63+frwr68)
+gen negSS53=(frcm53+frpr53+frwr53)
+gen negSS63=(frcm63+frpr63+frwr63)
+gen negSS68=(frcm68+frpr68+frwr68)
 
 
 drop sex 
@@ -1695,14 +1703,13 @@ drop sex
 
 **dropping variables for analysis *
 
-keep fsep53 fsep63 fsep68 ghqLIKERT68 ghqLIKERT63 ghqLIKERT53 ghqlogLIKERT68 ghqlogLIKERT63 ghqlogLIKERT53 psychscr68 psychscr63 psychscr53 frcd68 frcm68 frfg68 frsh68 frwr68 frpr68 frcd53 frcm53 frfg53 frpr53 frsh53 frwr53 frcd63 frcm63 frfg63 frpr63 frsh63 frwr63 exer68 exer63 exer53 SEP68 SEP63 SEP53 educ26g68 educ26g63 educ26g53 chldcog68 chldcog63 chldcog53  chldselforg68 chldselforg63 chldselforg53 neighbour68 neighbour63 neighbour53 sex53 sex63 sex68 serno
+keep posSS negSS fsep53 fsep63 fsep68 ghqLIKERT68 ghqLIKERT63 ghqLIKERT53 ghqlogLIKERT68 ghqlogLIKERT63 ghqlogLIKERT53 psychscr68 psychscr63 psychscr53 frcd68 frcm68 frfg68 frsh68 frwr68 frpr68 frcd53 frcm53 frfg53 frpr53 frsh53 frwr53 frcd63 frcm63 frfg63 frpr63 frsh63 frwr63 exer68 exer63 exer53 SEP68 SEP63 SEP53 educ26g68 educ26g63 educ26g53 chldcog68 chldcog63 chldcog53  chldselforg68 chldselforg63 chldselforg53 neighbour68 neighbour63 neighbour53 sex53 sex63 sex68 serno
 
 **** reshaping data ****
 
 reshape long fsep ghqLIKERT ghqlogLIKERT psychscr frcd frfg frsh frwr frpr frcm exer SEP educ26g chldcog chldselforg neighbour sex, i(serno) j(age)
 
-gen posSS=(frcd53+frcd63+frcd68+frfg53+frfg63+frfg68+frsh53+frsh63+frsh68)
-gen negSS=(frcm53+frcm63+frcm68+frpr53+frpr63+frpr68+frwr53+frwr63+frwr68)
+
 
 
 mixed ghqlogLIKERT i.sex i.psychscr || serno:
