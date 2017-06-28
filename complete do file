@@ -975,14 +975,14 @@ gen frcd68=confideIX14
 
 * How much in the last 12 months did this person make you feel good about yourself? *
 
-recode FRFG14x (6/9=.)(3=100)(2=66.66666)(1=33.33333), gen(feelIX14x)
+recode FRFG14x (-1000/-1=.)(6/9=.)(3=100)(2=66.66666)(1=33.33333), gen(feelIX14x)
 
 gen frfg68=feelIX14x
 
 
 * How much, in the last 12 months, did you share interests, hobbies and fun with the person you felt closest to? *
 
-recode FRSH14x (7/9=.)(-1=.)(1=33.333333)(2=66.6666666)(3=100), gen(hobbyIX14x)
+recode FRSH14x (7/9=.)(-1000/-1=.)(1=33.333333)(2=66.6666666)(3=100), gen(hobbyIX14x)
 
 gen frsh68=hobbyIX14x
 
@@ -991,7 +991,7 @@ gen frsh68=hobbyIX14x
 
 *recode FRWR14x (0=1)(1/3=0)(6/9=.)(-1=.)
 
-recode FRWR14x (-1=.)(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frwrIX14)
+recode FRWR14x (-1000/-1=.)(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frwrIX14)
 
 gen frwr68=frwrIX14
 
@@ -1000,13 +1000,13 @@ gen frwr68=frwrIX14
 
 *recode FRPR14x (0=1)(1/3=0)(6/9=.)
 
-recode FRPR14x(6/9=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frprIX14)
+recode FRPR14x(6/9=.)(-1000/-1=.)(0=100)(1=66.66666)(2=33.333333)(3=0), gen(frprIX14)
 
 gen frpr68=frprIX14
 
 * 	How much in the last 12 months would you have liked to have confided more in the person you felt closest to? *
 
-recode FRCM14x (6/9=.), gen(confidemore14)
+recode FRCM14x (-1000/-1=.)(6/9=.), gen(confidemore14)
 
 recode confidemore14 (3=0)(2=33.333333)(1=66.6666666)(0=100), gen(confmoreIX14)
 * if there is noone they've confided in they are given a score of 0 *
@@ -1310,33 +1310,33 @@ recode malvres (0=1)(1=0)
 
 *Mood disorder
 **Construct variable
-gen mentl = (GHQ0109+1) + (GHQ0209+1) + (GHQ0309+1)+ (GHQ0409+1)+ (GHQ0509+1)+ (GHQ0609+1)+ (GHQ0709+1)+ (GHQ0809+1)+ (GHQ0909+1)+ (GHQ1009+1)+ (GHQ1109+1)+ (GHQ1209+1)+ (GHQ1309+1)+ (GHQ1409+1)+ (GHQ1509+1)+ (GHQ1609+1)+ (GHQ1709+1)+ (GHQ1809+1)+ (GHQ1909+1)+ (GHQ2009+1)+ (GHQ2109+1)+ (GHQ2209+1)+ (GHQ2309+1)+ (GHQ2409+1)+ (GHQ2509+1)+ (GHQ2609+1)+ (GHQ2709+1)+ (GHQ2809+1)
-label var mentl "General Health Questionnaire 28 (min score 28/max score 112)"
+*gen mentl = (GHQ0109+1) + (GHQ0209+1) + (GHQ0309+1)+ (GHQ0409+1)+ (GHQ0509+1)+ (GHQ0609+1)+ (GHQ0709+1)+ (GHQ0809+1)+ (GHQ0909+1)+ (GHQ1009+1)+ (GHQ1109+1)+ (GHQ1209+1)+ (GHQ1309+1)+ (GHQ1409+1)+ (GHQ1509+1)+ (GHQ1609+1)+ (GHQ1709+1)+ (GHQ1809+1)+ (GHQ1909+1)+ (GHQ2009+1)+ (GHQ2109+1)+ (GHQ2209+1)+ (GHQ2309+1)+ (GHQ2409+1)+ (GHQ2509+1)+ (GHQ2609+1)+ (GHQ2709+1)+ (GHQ2809+1)
+*label var mentl "General Health Questionnaire 28 (min score 28/max score 112)"
 
 
 *Setting up
-mi set wide
-mi register imputed sclas own amen2 crowd reprs2 ccln2  hcln2 clsh maltrt tint2 mpbi dpbi pdth2 sep ghqAVE
-mi register regular sex psych div
+*mi set wide
+*mi register imputed sclas own amen2 crowd reprs2 ccln2  hcln2 clsh maltrt tint2 mpbi dpbi pdth2 sep ghqAVE
+*mi register regular sex psych div
 
-mi impute chained (logit, include (sex)) sclas own amen2 crowd reprs2 ccln2  hcln2 clsh maltrt tint2 mpbi dpbi pdth2 sep (regress, include (sex)) ghqAVE, add(10) rseed(4409) force
+*mi impute chained (logit, include (sex)) sclas own amen2 crowd reprs2 ccln2  hcln2 clsh maltrt tint2 mpbi dpbi pdth2 sep (regress, include (sex)) ghqAVE, add(10) rseed(4409) force
 
 
 *Cumulative socioeconomic risk
-mi passive: egen scrMI=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
-mi passive: egen nmiss1211=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
-mi passive:replace scrMI=. if nmiss1211
-mi passive: replace scrMI=3 if scrMI>=4 & scrMI<=8
-mi estimate: proportion scrMI
+*mi passive: egen scrMI=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+*mi passive: egen nmiss1211=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
+*mi passive:replace scrMI=. if nmiss1211
+*mi passive: replace scrMI=3 if scrMI>=4 & scrMI<=8
+*mi estimate: proportion scrMI
 
 
 *Cumulative psychosocial risk
-mi passive: egen psychscrMI=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive: egen nmiss211=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive: replace psychscrMI=. if nmiss211
-mi passive: replace psychscrMI=3 if psychscrMI>=4 & psychscrMI<=6
-* mi passive: replace psychscrMI=2 if psychscrMI>=3 & psychscrMI<=6
-mi estimate: proportion psychscrMI
+*mi passive: egen psychscrMI=rowtotal(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*mi passive: egen nmiss211=rowmiss(maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*mi passive: replace psychscrMI=. if nmiss211
+*mi passive: replace psychscrMI=3 if psychscrMI>=4 & psychscrMI<=6
+** mi passive: replace psychscrMI=2 if psychscrMI>=3 & psychscrMI<=6
+*mi estimate: proportion psychscrMI
 
 
 
@@ -1577,6 +1577,44 @@ gen ghqMISS = .
 replace ghqMISS = 1 if (ghqAVE==.)
 replace ghqMISS = 0 if (ghqAVE!=.)
 
+* missingness amongst psych adversities ** 
+
+gen tint2MISS =.
+replace tint2MISS = 1 if(tint2==.)
+replace tint2MISS = 0 if(tint2!=.)
+
+gen psychMISS =.
+replace psychMISS = 1 if(psych==.)
+replace psychMISS = 0 if(psych!=.)
+
+gen divMISS =.
+replace divMISS = 1 if(div==.)
+replace divMISS = 0 if(div!=.)
+
+gen dpbiMISS =.
+replace dpbiMISS = 1 if(dpbi==.)
+replace dpbiMISS = 0 if(dpbi!=.)
+
+gen mpbiMISS =.
+replace mpbiMISS = 1 if(mpbi==.)
+replace mpbiMISS = 0 if(mpbi!=.)
+
+gen pdth2MISS =.
+replace pdth2MISS = 1 if(pdth2==.)
+replace pdth2MISS = 0 if(pdth2!=.)
+
+gen sepMISS =.
+replace sepMISS = 1 if(sep==.)
+replace sepMISS = 0 if(sep!=.)
+
+gen maltrtMISS =.
+replace maltrtMISS = 1 if(maltrt==.)
+replace maltrtMISS = 0 if(maltrt!=.)
+
+gen adversityMISS = (maltrtMISS+sepMISS+pdth2MISS+mpbiMISS+dpbiMISS+divMISS+psychMISS+tint2MISS)
+
+
+
 
 *****************************************************************************************************************************
 *****************************************************************************************************************************
@@ -1620,7 +1658,7 @@ gen ghqlogLIKERT63=ln(ghqLIKERT63)
 gen ghqlogLIKERT53=ln(ghqLIKERT53)
 
 * physical activity *
-drop exer53 exer63 exer68
+
 gen exer53=exer99
 gen exer63=exer09
 gen exer68=exer14
@@ -1686,38 +1724,55 @@ gen fsep53=class2x
 gen fsep63=class2x
 gen fsep68=class2x
 
-gen posSS=(frcd53+frcd63+frcd68+frfg53+frfg63+frfg68+frsh53+frsh63+frsh68)
+
+*** SOCIAL SUPPORT ** 
+
+* positive functional social support * 
+gen posTOT=(frcd53+frcd63+frcd68+frfg53+frfg63+frfg68+frsh53+frsh63+frsh68)
 
 gen posSS53=(frcd53+frfg53+frsh53)
 gen posSS63=(frcd63+frfg63+frsh63)
 gen posSS68=(frcd68+frfg68+frsh68)
 
-gen negSS=(frcm53+frcm63+frcm68+frpr53+frpr63+frpr68+frwr53+frwr63+frwr68)
+* negative functional social support * 
+
+gen negTOT =(frcm53+frcm63+frcm68+frpr53+frpr63+frpr68+frwr53+frwr63+frwr68)
 gen negSS53=(frcm53+frpr53+frwr53)
 gen negSS63=(frcm63+frpr63+frwr63)
 gen negSS68=(frcm68+frpr68+frwr68)
 
+* total functional social support * 
+
+gen pnSS53 = (frcd53+frfg53+frsh53+frcm53+frpr53+frwr53)
+gen pnSS63 = (frcd63+frfg63+frsh63+frcm63+frpr63+frwr63)
+gen pnSS68 = (frcd68+frfg68+frsh68+frcm68+frpr68+frwr68)
 
 drop sex 
-*NEED TO ADD FATHERS SOC CLASS (AND MAYBE OTHER EDITS AS DISCUSSED FOLLOWING COMMENTS FROMN COAUTHORS
+
+* adversity missingness **
+
+gen AM53 = adversityMISS
+gen AM63 = adversityMISS
+gen AM68 = adversityMISS
+
 
 **dropping variables for analysis *
 
-keep posSS negSS fsep53 fsep63 fsep68 ghqLIKERT68 ghqLIKERT63 ghqLIKERT53 ghqlogLIKERT68 ghqlogLIKERT63 ghqlogLIKERT53 psychscr68 psychscr63 psychscr53 frcd68 frcm68 frfg68 frsh68 frwr68 frpr68 frcd53 frcm53 frfg53 frpr53 frsh53 frwr53 frcd63 frcm63 frfg63 frpr63 frsh63 frwr63 exer68 exer63 exer53 SEP68 SEP63 SEP53 educ26g68 educ26g63 educ26g53 chldcog68 chldcog63 chldcog53  chldselforg68 chldselforg63 chldselforg53 neighbour68 neighbour63 neighbour53 sex53 sex63 sex68 serno
+keep AM53 AM63 AM68 pnSS53 pnSS63 pnSS68 posSS53 posSS63 posSS68 negSS53 negSS63 negSS68 fsep53 fsep63 fsep68 ghqLIKERT68 ghqLIKERT63 ghqLIKERT53 ghqlogLIKERT68 ghqlogLIKERT63 ghqlogLIKERT53 psychscr68 psychscr63 psychscr53 frcd68 frcm68 frfg68 frsh68 frwr68 frpr68 frcd53 frcm53 frfg53 frpr53 frsh53 frwr53 frcd63 frcm63 frfg63 frpr63 frsh63 frwr63 exer68 exer63 exer53 SEP68 SEP63 SEP53 educ26g68 educ26g63 educ26g53 chldcog68 chldcog63 chldcog53  chldselforg68 chldselforg63 chldselforg53 neighbour68 neighbour63 neighbour53 sex53 sex63 sex68 serno
 
 **** reshaping data ****
 
-reshape long fsep ghqLIKERT ghqlogLIKERT psychscr frcd frfg frsh frwr frpr frcm exer SEP educ26g chldcog chldselforg neighbour sex, i(serno) j(age)
+reshape long AM pnSS posSS negSS fsep ghqLIKERT ghqlogLIKERT psychscr frcd frfg frsh frwr frpr frcm exer SEP educ26g chldcog chldselforg neighbour sex, i(serno) j(age)
 
 
 
 
 mixed ghqlogLIKERT i.sex i.psychscr || serno:
 mixed ghqlogLIKERT i.sex psychscr || serno:
-mixed ghqlogLIKERT i.sex psychscr  possupp || serno:
-mixed ghqlogLIKERT i.sex c.psychscr##c.possupp  || serno:
-mixed ghqlogLIKERT i.sex psychscr negsupp || serno:
-mixed ghqlogLIKERT i.sex c.psychscr##c.negsupp || serno:
+mixed ghqlogLIKERT i.sex psychscr  posSS || serno:
+mixed ghqlogLIKERT i.sex c.psychscr##c.posSS || serno:
+mixed ghqlogLIKERT i.sex psychscr negSS || serno:
+mixed ghqlogLIKERT i.sex c.psychscr##c.negSS || serno:
 mixed ghqlogLIKERT i.sex psychscr exer || serno:
 mixed ghqlogLIKERT i.sex c.psychscr##c.exer || serno:
 mixed ghqlogLIKERT i.sex psychscr i.SEP || serno:
@@ -1736,11 +1791,19 @@ mixed ghqlogLIKERT i.sex c.psychscr##c.neighbour || serno:
 
 * MULTIPLE IMPUTATION - 
 mi set wide
-mi register imputed psychscr frcd frfg frsh frwr frpr frcm exer SEP educ26g ghqlogLIKERT chldcog chldselforg neighbour
+mi register imputed pnSS posSS negSS psychscr frcd frfg frsh frwr frpr frcm exer SEP educ26g ghqlogLIKERT chldcog chldselforg neighbour
 mi impute chained (ologit, include (sex)) psychscr exer SEP educ26g (regress, include (sex)) ghqlogLIKERT chldcog chldselforg neighbour  frcd frfg frsh frwr frpr frcm, add(2) rseed(4409) force
+
+* drop if missing GHQ data *
 drop if ghqlogLIKERT==.
-* DROP IF MORE THAN 3 MISSING PSYCH ADVERSITIES?
-* to add in **
+
+* drop if more than 3 or more psychosocial adversities are missing * 
+drop if AM>=3
+
+
+
+
+
 mi estimate: mixed ghqlogLIKERT i.sex psychscr  exer|| serno:
 
 
