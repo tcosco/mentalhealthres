@@ -1872,6 +1872,17 @@ mi estimate: regress `var' i.sex psychscr
 }
 
 
+***** MODERATION ANALYSIS ********
+
+foreach var of varlist  exer SEP educ {
+mixed ghqlogLIKERT i.sex c.psychscr##i.`var' || serno:
+}
+
+foreach var of varlist  chldcog chldselforg pnSS neighbour {
+mixed ghqlogLIKERT i.sex c.psychscr##c.`var' || serno:
+}
+
+
 
 
 
