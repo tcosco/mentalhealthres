@@ -1844,4 +1844,26 @@ foreach var of varlist maltrt tint psych div mpbi dpbi pdth sep {
 mi estimate: mixed ghqlogLIKERT i.sex `var' || serno:
 }
 
+* mutiply adjusted for all individual variables - with GHQ * 
+
+mi estimate: mixed ghqlogLIKERT i.sex maltrt tint psych div mpbi dpbi pdth sep || serno:
+
+
+*** ANALYSIS OF RESOURCES AS OUTCOMES AND ADVERSITY AS EXPOSUIRE * 
+
+* ologit for categirical vars * 
+
+foreach var of varlist exer SEP educ {
+mi estimate, or: ologit `var' i.sex psychscr
+}
+
+* for continuos vars *
+
+foreach var of varlist chldcog chldselforg pnSS neighbour {
+mi estimate: regress `var' i.sex psychscr
+}
+
+
+
+
 
