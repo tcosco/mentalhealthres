@@ -1838,3 +1838,10 @@ drop if AM>=3
 mi estimate: mixed ghqlogLIKERT i.sex psychscr  exer|| serno:
 
 
+*** analysis of each individual adversity with GHQ * 
+
+foreach var of varlist maltrt tint psych div mpbi dpbi pdth sep {
+mi estimate: mixed ghqlogLIKERT i.sex `var' || serno:
+}
+
+
