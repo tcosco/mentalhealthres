@@ -307,7 +307,9 @@ gen maltrt=pamis89
  replace maltrt=. if pamis89==9
  tab maltrt,m
  
- 
+ gen maltrt53 = maltrt
+ gen maltrt63 = maltrt
+ gen maltrt68 = maltrt
  
  
  
@@ -332,6 +334,10 @@ label values tint2 tint2
 
 tab tint2,m
 
+gen tint53 = tint2
+gen tint63 = tint2
+gen tint68 = tint2
+
 
 ** Parent's interest in primary and secondary education 1959
 codebook parps
@@ -347,6 +353,10 @@ recode pint  1=0 2=0 3=1, gen(pint2)
 label define pint2 0" Avge to v.interest" 1"Little interest"
 label values pint2 pint2
 tab pint2,m
+
+gen pint53 = pint2
+gen pint63 = pint2
+gen pint68 = pin2
 
 ** Father Psych Hx**
 
@@ -370,12 +380,20 @@ replace psych=0 if fpsych==0 & mpsych==0
 replace psych=. if fpsych==. | mpsych==.
 tab psych,m
 
+gen psych53 = psych
+gen psych63 = psych
+gen psych68 = psych
+
 
 **Parental divorce**
 gen div=.
 replace div=1 if divscage<=16
 replace div=0 if divscage>16
 tab div,m
+
+gen div53 = div
+gen div63 = div
+gen div68 = div
 
 **Quality of Parental Care
 
@@ -400,6 +418,9 @@ label define mpbi 1"Not normal" 0 "Normal"
 label values mpbi mpbi
 tab mpbi,m
 
+gen mpbi53 = mpbi
+gen mpbi63 = mpbi
+gen mpbi68 = mpbi
 
 **Father's parental bonding *
 
@@ -422,6 +443,9 @@ label define dpbi 1"Not normal" 0 "normal"
 label values dpbi dpbi
 tab dpbi,m
 
+gen dpbi53 = dpbi
+gen dpbi63 = dpbi
+gen dpbi68 = dpbi
 
 **Father death <16**
 tab sagedf,m
@@ -452,6 +476,10 @@ replace pdth2=. if lsdad==. | lsmum==.
 
 tab pdth2,m
 
+gen pdth53 = pdth2
+gen pdth63 = pdth2
+gen pdth68 = pdth2
+
 *MATERNAL SEPARATION UP TO 6 YEARS
 *Give missing code for particpants with unknown responses*/
 
@@ -463,6 +491,9 @@ replace sep=1 if SET4652==9
 replace sep=0 if SET4652>=0 & SET4652<9
 tab sep,m
 
+gen sep53 = sep
+gen sep63 = sep
+gen sep68 = sep
 
 ***** TOTAL RISK SCORES  *****
 egen scr=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own)
@@ -1758,11 +1789,11 @@ gen AM68 = adversityMISS
 
 **dropping variables for analysis *
 
-keep AM53 AM63 AM68 pnSS53 pnSS63 pnSS68 posSS53 posSS63 posSS68 negSS53 negSS63 negSS68 fsep53 fsep63 fsep68 ghqLIKERT68 ghqLIKERT63 ghqLIKERT53 ghqlogLIKERT68 ghqlogLIKERT63 ghqlogLIKERT53 psychscr68 psychscr63 psychscr53 frcd68 frcm68 frfg68 frsh68 frwr68 frpr68 frcd53 frcm53 frfg53 frpr53 frsh53 frwr53 frcd63 frcm63 frfg63 frpr63 frsh63 frwr63 exer68 exer63 exer53 SEP68 SEP63 SEP53 educ26g68 educ26g63 educ26g53 chldcog68 chldcog63 chldcog53  chldselforg68 chldselforg63 chldselforg53 neighbour68 neighbour63 neighbour53 sex53 sex63 sex68 serno
+keep tint53 tint63 tint68 maltrt53 maltrt63 maltrt68 psych53 psych63 psych68 div53 div63 div68 dpbi53 dpbi63 dpbi68 mpbi53 mpbi63 mpbi68 pdth53 pdth63 pdth68 sep53 sep63 sep68 AM53 AM63 AM68 pnSS53 pnSS63 pnSS68 posSS53 posSS63 posSS68 negSS53 negSS63 negSS68 fsep53 fsep63 fsep68 ghqLIKERT68 ghqLIKERT63 ghqLIKERT53 ghqlogLIKERT68 ghqlogLIKERT63 ghqlogLIKERT53 psychscr68 psychscr63 psychscr53 frcd68 frcm68 frfg68 frsh68 frwr68 frpr68 frcd53 frcm53 frfg53 frpr53 frsh53 frwr53 frcd63 frcm63 frfg63 frpr63 frsh63 frwr63 exer68 exer63 exer53 SEP68 SEP63 SEP53 educ26g68 educ26g63 educ26g53 chldcog68 chldcog63 chldcog53  chldselforg68 chldselforg63 chldselforg53 neighbour68 neighbour63 neighbour53 sex53 sex63 sex68 serno
 
 **** reshaping data ****
 
-reshape long AM pnSS posSS negSS fsep ghqLIKERT ghqlogLIKERT psychscr frcd frfg frsh frwr frpr frcm exer SEP educ26g chldcog chldselforg neighbour sex, i(serno) j(age)
+reshape long tint maltrt psych div dpbi mpbi pdth sep AM pnSS posSS negSS fsep ghqLIKERT ghqlogLIKERT psychscr frcd frfg frsh frwr frpr frcm exer SEP educ26g chldcog chldselforg neighbour sex, i(serno) j(age)
 
 
 
