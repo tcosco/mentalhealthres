@@ -1774,9 +1774,17 @@ gen negSS68=(frcm68+frpr68+frwr68)
 
 * total functional social support * 
 
-gen pnSS53 = (frcd53+frfg53+frsh53+frcm53+frpr53+frwr53)
-gen pnSS63 = (frcd63+frfg63+frsh63+frcm63+frpr63+frwr63)
-gen pnSS68 = (frcd68+frfg68+frsh68+frcm68+frpr68+frwr68)
+gen pnSS53XX = (frcd53+frfg53+frsh53+frcm53+frpr53+frwr53)
+gen pnSS63XX = (frcd63+frfg63+frsh63+frcm63+frpr63+frwr63)
+gen pnSS68XX = (frcd68+frfg68+frsh68+frcm68+frpr68+frwr68)
+
+zscore pnSS53XX pnSS63XX pnSS68XX
+
+gen pnSS53 = z_pnSS53XX
+gen pnSS63 = z_pnSS63XX
+gen pnSS68 = z_pnSS68XX
+
+
 
 drop sex 
 
