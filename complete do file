@@ -1794,8 +1794,8 @@ gen AM53 = adversityMISS
 gen AM63 = adversityMISS
 gen AM68 = adversityMISS
 
-
-**dropping variables for analysis *
+**********************************************************
+**dropping variables for MULTILEVEL MODELLING analysis *
 
 keep tint53 tint63 tint68 maltrt53 maltrt63 maltrt68 psych53 psych63 psych68 div53 div63 div68 dpbi53 dpbi63 dpbi68 mpbi53 mpbi63 mpbi68 pdth53 pdth63 pdth68 sep53 sep63 sep68 AM53 AM63 AM68 pnSS53 pnSS63 pnSS68 posSS53 posSS63 posSS68 negSS53 negSS63 negSS68 fsep53 fsep63 fsep68 ghqLIKERT68 ghqLIKERT63 ghqLIKERT53 ghqlogLIKERT68 ghqlogLIKERT63 ghqlogLIKERT53 psychscr68 psychscr63 psychscr53 frcd68 frcm68 frfg68 frsh68 frwr68 frpr68 frcd53 frcm53 frfg53 frpr53 frsh53 frwr53 frcd63 frcm63 frfg63 frpr63 frsh63 frwr63 exer68 exer63 exer53 SEP68 SEP63 SEP53 educ26g68 educ26g63 educ26g53 chldcog68 chldcog63 chldcog53  chldselforg68 chldselforg63 chldselforg53 neighbour68 neighbour63 neighbour53 sex53 sex63 sex68 serno
 
@@ -1803,7 +1803,10 @@ keep tint53 tint63 tint68 maltrt53 maltrt63 maltrt68 psych53 psych63 psych68 div
 
 reshape long tint maltrt psych div dpbi mpbi pdth sep AM pnSS posSS negSS fsep ghqLIKERT ghqlogLIKERT psychscr frcd frfg frsh frwr frpr frcm exer SEP educ26g chldcog chldselforg neighbour sex, i(serno) j(age)
 
-
+* identifying which variables exist at each of the three ages *
+by serno, sort: gen select = _n==1
+by serno, sort: gen select2 = _n==2
+by serno, sort: gen select3 = _n==3
 
 
 mixed ghqlogLIKERT i.sex i.psychscr || serno:
