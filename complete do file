@@ -1608,6 +1608,18 @@ gen ghqMISS = .
 replace ghqMISS = 1 if (ghqAVE==.)
 replace ghqMISS = 0 if (ghqAVE!=.)
 
+gen ghqMISS53 = .
+replace ghqMISS53 = 1 if (ghqLIKERT53==.)
+replace ghqMISS53 = 0 if (ghqLIKERT53!=.)
+
+gen ghqMISS63 = .
+replace ghqMISS63 = 1 if (ghqLIKERT63==.)
+replace ghqMISS63 = 0 if (ghqLIKERT63!=.)
+
+gen ghqMISS68 = .
+replace ghqMISS68 = 1 if (ghqLIKERT68==.)
+replace ghqMISS68 = 0 if (ghqLIKERT68!=.)
+
 * missingness amongst psych adversities ** 
 
 gen tint2MISS =.
@@ -1794,6 +1806,28 @@ gen AM53 = adversityMISS
 gen AM63 = adversityMISS
 gen AM68 = adversityMISS
 
+
+****** DROPPED FROM SAMPLE i.e. MISSING 4+ ADVERSITIES AND MISSING GHQ **
+
+gen MISS53 = .
+replace MISS53 = 1 if (ghqMISS53 ==1 | AM53 >= 4)
+replace MISS53 = 0 if (ghqMISS53 == 0 & AM53 <= 3)
+
+gen MISS63 = .
+replace MISS63 = 1 if (ghqMISS63 ==1 | AM63 >= 4)
+replace MISS63 = 0 if (ghqMISS63 == 0 & AM63 <= 3)
+
+gen MISS68 = .
+replace MISS68 = 1 if (ghqMISS68 ==1 | AM68 >= 4)
+replace MISS68 = 0 if (ghqMISS68 == 0 & AM68 <= 3)
+
+*** missingness analysis ***
+
+foreach var of varlist sex53 exer53 SEP53 educ26g53 chldcog53 chldselforg53 pnSS53 neighbour53 {
+logistic MISS53  `var'
+}
+
+
 **********************************************************
 **dropping variables for MULTILEVEL MODELLING analysis *
 
@@ -1855,9 +1889,17 @@ foreach var of varlist maltrt tint psych div mpbi dpbi pdth sep {
 mi estimate: mixed ghqlogLIKERT i.sex `var' || serno:
 }
 
-* mutiply adjusted for all individual variables - with GHQ * 
+* mutiply adjusted for all individual adversity variables - with GHQ * 
 
 mi estimate: mixed ghqlogLIKERT i.sex maltrt tint psych div mpbi dpbi pdth sep || serno:
+
+
+
+********* resources and GHQ score *******
+
+foreach var of varlist exer SEP educ chldcog chldselforg pnSS neighbour{
+mi estimate: mixed ghqlogLIKERT i.sex `var' || serno:
+}
 
 
 *** ANALYSIS OF RESOURCES AS OUTCOMES AND ADVERSITY AS EXPOSUIRE * 
