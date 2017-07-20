@@ -1904,11 +1904,22 @@ mi estimate: mixed ghqlogLIKERT i.sex `var' || serno:
 
 *** ANALYSIS OF RESOURCES AS OUTCOMES AND ADVERSITY AS EXPOSUIRE * 
 
+
+* assessing proprtional odds assumption *
+omodel logit exer sex psychscr
+omodel logit SEP sex psychscr
+omodel logit educ sex psychscr
+
 * ologit for categirical vars * 
 
-foreach var of varlist exer SEP educ {
-mi estimate, or: ologit `var' i.sex psychscr
-}
+
+mi estimate, or: ologit exer i.sex psychscr
+
+* mlogit for categoirical variables that violate proportional odds ratio * 
+
+mi estimate, rrr: mlogit SEP i.sex psychscr, base(1)
+mi estimate, rrr: mlogit educ i.sex psychscr, base(1)
+
 
 * for continuos vars *
 
@@ -1920,12 +1931,14 @@ mi estimate: regress `var' i.sex psychscr
 ***** MODERATION ANALYSIS ********
 
 foreach var of varlist  exer SEP educ {
-mixed ghqlogLIKERT i.sex c.psychscr##i.`var' || serno:
+mi estmiate: mixed ghqlogLIKERT i.sex c.psychscr##i.`var' || serno:
 }
 
 foreach var of varlist  chldcog chldselforg pnSS neighbour {
-mixed ghqlogLIKERT i.sex c.psychscr##c.`var' || serno:
+mi estimate: mixed ghqlogLIKERT i.sex c.psychscr##c.`var' || serno:
 }
+
+**** resources table ****
 
 
 
