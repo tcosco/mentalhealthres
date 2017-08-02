@@ -356,7 +356,7 @@ tab pint2,m
 
 gen pint53 = pint2
 gen pint63 = pint2
-gen pint68 = pin2
+gen pint68 = pint2
 
 ** Father Psych Hx**
 
@@ -423,8 +423,6 @@ gen mpbi63 = mpbi
 gen mpbi68 = mpbi
 
 **Father's parental bonding *
-
-*Check whether ok that missing obs code is correct*/
 
 gen dadpbi=.
 replace dadpbi=1 if (fcare>=24  & foverp<12.5) & (fcare!=.  & foverp!=.)
@@ -714,7 +712,7 @@ recode numberfr (5=100)(4=75)(3=50)(2=25)(1=0), gen (numberIX)
 
 * marital status * 
 
-recode marstat (3/5=0)(1=0)(2=1), gen(marstat1
+recode marstat (3/5=0)(1=0)(2=1), gen(marstat1)
 recode marstat1 (1=100), gen(marIX)
 
 *FUNCTIONAL SUPPORTS *
@@ -770,7 +768,7 @@ gen frfg53=feelIX
 
 recode dssp (2=1)(1=0)(3/9=.), gen(dsspIX)
 recode dsspIX (1=100)
-replace dsspIX = 100 if(marstat==0)
+replace dsspIX = 100 if(marstat1==0)
 
 * lost contact wiuthg a close friend/relative * 1= no *
 
@@ -820,34 +818,23 @@ gen socsupIX = (visitIX+  numberIX+ helpIX+ socIX+ confideIX+ confmoreIX + marIX
 
 * structural only *
 
-* inclusive model*
-local STRSOCSUP99 "visitIX  numberIX marIX"
-egen strsocsupIXinc = rmean(`STRSOCSUP99')
-* listwise delete*
-gen strsocsupIX = (visitIX  + numberIX +marIX)/3
 
 * functional only*
 
-* inclusive model*
-local FUNSOCSUP99 "helpIX socIX confideIX confmoreIX  dsspIX rlosIX frprIX frwrIX  hobbyIX  feelIX"
-egen funsocsupIXinc = rmean(`FUNSOCSUP99')
 * listwise delete*
 gen funsocsupIX = (helpIX+ socIX+ confideIX+ confmoreIX + dsspIX+ rlosIX+ frprIX+ frwrIX + hobbyIX + feelIX)/10
 
 
 * positive functional  items *
 
-* inclusive model*
-local POSFUN99 "helpIX socIX confideIX  hobbyIX  feelIX"
-egen posfunIXinc = rmean(`POSFUN99')
+
 * listwise delete*
 gen posfunIX = (hobbyIX + helpIX+ socIX+ confideIX + feelIX)/5
 
 * negative structural items *
 
 * inclusive model*
-local NEGFUN99 "confmoreIX  dsspIX rlosIX frprIX frwrIX"
-egen negfunIXinc = rmean(`NEGFUN99')
+
 * listwise delete*
 gen negfunIX = ( dsspIX+ rlosIX+ frprIX+ frwrIX + confmoreIX)/5
 
@@ -1372,11 +1359,11 @@ recode malvres (0=1)(1=0)
 
 
 ***Cumualtive  Total Risk
-mi passive: egen totalrMI=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive:egen nmiss511=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
-mi passive:replace totalrMI=. if nmiss511
-mi passive: replace totalrMI=4 if totalrMI>=5 & totalrMI!=.
-mi estimate: proportion totalrMI
+*mi passive: egen totalrMI=rowtotal(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*mi passive:egen nmiss511=rowmiss(sclas amen2 reprs2 hcln2 ccln2 clsh crowd own maltrt tint2 psych div dpbi mpbi pdth2 sep)
+*mi passive:replace totalrMI=. if nmiss511
+*mi passive: replace totalrMI=4 if totalrMI>=5 & totalrMI!=.
+*mi estimate: proportion totalrMI
 
 *drop if ghqAVE==.
 
