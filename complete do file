@@ -1918,7 +1918,7 @@ mi estimate: regress `var' i.sex psychscr
 ***** MODERATION ANALYSIS ********
 
 foreach var of varlist  exer SEP educ {
-mi estmiate: mixed ghqlogLIKERT i.sex c.psychscr##i.`var' || serno:
+mi estimate: mixed ghqlogLIKERT i.sex c.psychscr##i.`var' || serno:
 }
 
 foreach var of varlist  chldcog chldselforg pnSS neighbour {
